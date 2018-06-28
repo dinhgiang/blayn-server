@@ -1,0 +1,7 @@
+{
+  "development": {
+    "PORT": 3000,
+    "MONGODB_URI": "mongodb://dinhgiang11:dinhgiang1198%40@ds219191.mlab.com:19191/blayn_cafe",
+    "JWT_SECRET": "nani-dafuq"
+  }
+}
