@@ -5,10 +5,19 @@ const StudentSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  name: {
+  familyName: {
     type: String,
     required: true,
     trim: true
+  },
+  givenName: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  gender: {
+    type: String,
+    required: true
   },
   avatar: {
     type: String,
@@ -31,10 +40,6 @@ const StudentSchema = mongoose.Schema({
     type: String,
     require: false
   },
-  image: {
-    type: String,
-    require: false
-  },
   studentNumber: {
     type: Number,
     require: true
@@ -44,12 +49,16 @@ const StudentSchema = mongoose.Schema({
     require: true
   },
   status: {
-    type: Number,
+    type: String,
+    require: true
+  },
+  memberDeadline: {
+    type: Date,
     require: true
   }
 })
 
-const Student = mongoose.model('Student', StudentSchema);
+const Student = mongoose.model('students', StudentSchema);
 
 module.exports = {
   Student

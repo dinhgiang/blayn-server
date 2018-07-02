@@ -73,9 +73,12 @@ const SponsorSchema = mongoose.Schema({
     require: false,
     default: 0
   },
+  deadline: {
+    type: Date,
+  }
 })
 
-const Sponsor = mongoose.model('Sponsor', SponsorSchema);
+const Sponsor = mongoose.model('sponsors', SponsorSchema);
 
 module.exports = {
   Sponsor
