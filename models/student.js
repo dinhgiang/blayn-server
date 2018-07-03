@@ -56,7 +56,11 @@ const StudentSchema = mongoose.Schema({
     type: Date,
     require: true
   }
-})
+});
+
+StudentSchema.statics.getAllStudents = () => {
+  return Student.find();
+};
 
 const Student = mongoose.model('students', StudentSchema);
 

@@ -1,11 +1,11 @@
 require('./config/config');
-
 const express = require('express');
 const bodyParser = require('body-parser');
-const jwt = require('jsonwebtoken');
 
 const app = express();
 const { mongoose } = require('./db/mongoose');
+
+const router = require('./router/router')
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -13,12 +13,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-  let token = jwt.sign({
-    username: 'giang'
-  }, process.env.JWT_SECRET, { expiresIn: process.env.TOKEN_EXPIRES_IN });
-  res.send(token);
-});
+app.use(express.static('public'));
+
+app.use('/api', router);
 
 require('./db/seed');
 

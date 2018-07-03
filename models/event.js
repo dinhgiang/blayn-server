@@ -25,7 +25,8 @@ const EventSchema = mongoose.Schema({
   },
   description: {
     type: String,
-    require: false
+    require: false,
+    default: null
   },
   image: {
     type: String,
@@ -44,6 +45,10 @@ const EventSchema = mongoose.Schema({
     require: true
   }
 })
+
+EventSchema.statics.getAllEvents = function() {
+  return Event.find();
+};
 
 const Event = mongoose.model('events', EventSchema);
 
