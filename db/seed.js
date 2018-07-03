@@ -9,15 +9,23 @@ const { EventStudent } = require('../models/event_student');
 const user = [{
   _id : new ObjectID(),
   email: "dinhvangiang1198@gmail.com",
+  password: "12345678",
   role: "student"
 }, {
   _id : new ObjectID(),
   email: "giangth2310@gmail.com",
+  password: "12345678",
   role: "student"
 }, {
   _id : new ObjectID(),
   email: "dattq@gmail.com",
+  password: "12345678",
   role: "sponsor"
+}, {
+  _id : new ObjectID(),
+  email: "blayn",
+  password: "12345678",
+  role: "root"
 }];
 
 const sponsor = [{
@@ -30,7 +38,7 @@ const sponsor = [{
   companyPhone: 01234567,
   department: "E3",
   position: "leader",
-  logo: "",
+  logo: '../images/Framgia.jpg',
   CEOName: "hihi",
   dateOfEstablished: new Date(2010),
   numberOfEmployees: 1000,
@@ -108,7 +116,10 @@ Student.remove({}).then(() => {
 });
 
 User.remove({}).then(() => {
-  User.insertMany(user);
+  user.forEach(el => {
+    const e = new User(el);
+    e.save();
+  })
 });
 
 EventStudent.remove({}).then(() => {

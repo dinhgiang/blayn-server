@@ -30,15 +30,18 @@ const SponsorSchema = mongoose.Schema({
   },
   department: {
     type: String,
-    require: false
+    require: false,
+    default: null
   },
   position: {
     type: String,
-    require: false
+    require: false,
+    default: null
   },
   logo: {
     type: String,
-    require: false
+    require: false,
+    default: null
   },
   CEOName: {
     type: String,
@@ -66,7 +69,8 @@ const SponsorSchema = mongoose.Schema({
   },
   introduction2: {
     type: String,
-    require: false
+    require: false,
+    default: null
   },
   timesPerMonth: {
     type: Number,
@@ -76,7 +80,11 @@ const SponsorSchema = mongoose.Schema({
   deadline: {
     type: Date,
   }
-})
+});
+
+SponsorSchema.statics.getAllSponsors = function() {
+  return Sponsor.find();
+};
 
 const Sponsor = mongoose.model('sponsors', SponsorSchema);
 
