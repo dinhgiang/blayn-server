@@ -32,9 +32,10 @@ const EventSchema = mongoose.Schema({
     type: String,
     require: true
   },
-  sponsorID: {
-    type: String,
-    require: true
+  sponsorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    require: true,
+    ref: 'sponsors'
   },
   status: {
     type: String,
@@ -43,10 +44,10 @@ const EventSchema = mongoose.Schema({
   unavailableSeats: {
     type: Number,
     require: true
-  }
+  },
 })
 
-EventSchema.statics.getAllEvents = function() {
+EventSchema.statics.getAll = () => {
   return Event.find();
 };
 

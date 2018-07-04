@@ -17,7 +17,7 @@ app.use(express.static('public'));
 
 app.use('/api', router);
 
-require('./db/seed');
+// require('./db/seed');
 
 const port = process.env.PORT;
 app.listen(port, () => {

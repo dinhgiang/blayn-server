@@ -7,6 +7,7 @@ const authenticate = async (req, res, next) => {
 
   try {
     await jwt.verify(token, process.env.JWT_SECRET);
+    req.sender = jwt.decode(token);
     next();
   } catch (e) {
     res.status(401).send({message: e.message});

@@ -3,12 +3,11 @@ const jwt = require('jsonwebtoken');
 
 const { User } = require('../models/user.js');
 
-
-const login = async function (req, res) {
+const login = async (req, res) => {
   const { id, password } = req.body;
   try {
     const user = await User.getUser(id);
-    
+
     if (user == null) {
       throw new Error('Invailid username');
     } 

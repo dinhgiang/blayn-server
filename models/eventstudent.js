@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
+const { Student } = require('../models/student.js');
 
 const EventStudentSchema = mongoose.Schema({
-  studentID: {
+  studentId: {
     type: String,
     require: true
   },
-  eventID: {
+  eventId: {
     type: String,
     require: true
   },
@@ -20,7 +21,12 @@ const EventStudentSchema = mongoose.Schema({
   }
 });
 
-const EventStudent = mongoose.model('event_student', EventStudentSchema);
+EventStudentSchema.statics.getHistory = async (userId) => {
+  const student = await Student.findOne({userId: userId});
+  return EventStudent.find({studentId : student._id});
+}
+
+const EventStudent = mongoose.model('eventstudents', EventStudentSchema);
 
 module.exports = {
   EventStudent
