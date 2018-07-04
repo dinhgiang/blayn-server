@@ -78,6 +78,21 @@ const student = [{
   barcode: "asdf",
   status: "under review",
   memberDeadline: new Date("2018-08-20")
+}, {
+  _id: new ObjectID(),
+  userId: user[1]._id,
+  familyName: "Thai",
+  givenName: "Huy Nhat Quang",
+  gender: "female",
+  avatar: "",
+  admissionYear: new Date("2016"),
+  department: "none",
+  dateOfBirth: new Date("1998-07-02"),
+  studentCard: "none",
+  studentNumber: 16020928,
+  barcode: "asdf",
+  status: "under review",
+  memberDeadline: new Date("2018-08-20")
 }];
 
 const event = [{
@@ -97,6 +112,22 @@ const event = [{
     visitedTime: new Date("2018-07-20T10:30:00")
   }, {
     studentId: student[1]._id
+  }]
+}, {
+  _id: new ObjectID(),
+  title: "Free cafe",
+  date: new Date("6-6-2018"),
+  startingTime: new Date("2018-06-27T14:00:00"),
+  endingTime: new Date("2018-06-27T17:00:00"),
+  joinedStudents: 50,
+  description: "asfd",
+  image: "",
+  sponsorId: sponsor[0]._id,
+  status: "approve",
+  unavailableSeats: 10,
+  followingStudents: [{
+    studentId: student[1]._id,
+    visitedTime: new Date("2018-07-20T10:30:00")
   }]
 }];
 

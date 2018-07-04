@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const { Event } = require('./event.js');
+
 const StudentSchema = mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -75,6 +77,17 @@ StudentSchema.statics.getProfile = async (userId) => {
   result.userId = result.userId._id;
 
   return result;  
+};
+
+StudentSchema.statics.getHistory = async (userId) => {
+  const student = await Student.findOne({userId: userId});
+  
+  const followingEvents = await Event
+  .find({
+    'followingStudents.studentId': student._id
+    })
+  // .where('followingStudents.visitedTime').ne(null);
+  return followingEvents;
 };
 
 const Student = mongoose.model('students', StudentSchema);

@@ -1,5 +1,4 @@
 const { Student } = require('../models/student.js');
-const { Event } = require('../models/event.js');
 
 const getAll = async (req, res) => {
   const students = await Student.getAll();
@@ -12,7 +11,7 @@ const getProfile = async (req, res) => {
 };
 
 const getHistory = async (req, res) => {
-  const history = await Event.getHistory(req.sender._id);
+  const history = await Student.getHistory(req.sender._id);
   res.send(history);
 };
 
