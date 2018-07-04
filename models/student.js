@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 
 const StudentSchema = mongoose.Schema({
-  userID: {
-    type: String,
-    required: true
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'users'
   },
   familyName: {
     type: String,
@@ -58,8 +59,22 @@ const StudentSchema = mongoose.Schema({
   }
 });
 
-StudentSchema.statics.getAllStudents = () => {
+StudentSchema.statics.getAll = () => {
   return Student.find();
+};
+
+StudentSchema.statics.getProfile = async (userId) => {
+  const student = await Student.findOne({ userId: userId })
+    .populate({path: 'userId', select: 'email'});
+  
+  const result = {
+    ...student._doc
+  }
+
+  result.email = result.userId.email;
+  result.userId = result.userId._id;
+
+  return result;  
 };
 
 const Student = mongoose.model('students', StudentSchema);

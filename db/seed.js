@@ -4,7 +4,7 @@ const { Event } = require('../models/event');
 const { Sponsor } = require('../models/sponsor');
 const { Student } = require('../models/student');
 const { User } = require('../models/user');
-const { EventStudent } = require('../models/event_student');
+const { EventStudent } = require('../models/eventstudent');
 
 const user = [{
   _id : new ObjectID(),
@@ -30,7 +30,7 @@ const user = [{
 
 const sponsor = [{
   _id: new ObjectID(),
-  userID: user[2]._id,
+  userId: user[2]._id,
   companyName: "UET",
   staffName: "Truong Quoc Dat",
   staffRubyName: "dat9.8",
@@ -58,29 +58,29 @@ const event = [{
   joinedStudents: 30,
   description: "",
   image: "",
-  sponsorID: sponsor[0]._id,
+  sponsorId: sponsor[0]._id,
   status: "approve",
   unavailableSeats: 20
 }];
 
 const student = [{
   _id: new ObjectID(),
-  userID: user[0]._id,
+  userId: user[0]._id,
   familyName: "Dinh",
   givenName: "Van Giang",
   gender: "male",
   avatar: "",
   admissionYear: new Date(2016),
   department: "none",
-  dateOfBirth: new Date(1998, 01, 01),
+  dateOfBirth: new Date("01/01/1998"),
   studentCard: "none",
   studentNumber: 16020926,
   barcode: "asdf",
   status: "member",
-  memberDeadline: new Date(2018, 08, 20)
+  memberDeadline: new Date("08/20/2018")
 }, {
   _id: new ObjectID(),
-  userID: user[1]._id,
+  userId: user[1]._id,
   familyName: "Truong",
   givenName: "Hoang Giang",
   gender: "male",
@@ -95,12 +95,18 @@ const student = [{
   memberDeadline: new Date(2018, 08, 20)
 }];
 
-const event_student = [{
+const eventstudent = [{
   _id : new ObjectID(),
-  studentID: student[1]._id,
-  eventID: event[0]._id,
+  studentId: student[0]._id,
+  eventId: event[0]._id,
   status: "follow",
-  visitedTime: new Date(2018, 07, 30)
+  visitedTime: new Date('07/30/2018')
+}, {
+  _id : new ObjectID(),
+  studentId: student[1]._id,
+  eventId: event[0]._id,
+  status: "follow",
+  visitedTime: new Date('07/30/2018')
 }]
 
 Event.remove({}).then(() => {
@@ -123,5 +129,5 @@ User.remove({}).then(() => {
 });
 
 EventStudent.remove({}).then(() => {
-  EventStudent.insertMany(event_student);
+  EventStudent.insertMany(eventstudent);
 });

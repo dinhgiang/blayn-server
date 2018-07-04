@@ -1,10 +1,10 @@
 const { Sponsor } = require('../models/sponsor.js');
 
-const getAllSponsors = async function(req, res) {
-  let sponsors = await Sponsor.getAllSponsors();
+const getAll = async (req, res) => {
+  const sponsors = await Sponsor.getAll();
   res.send(sponsors);
 };
 
 module.exports = {
-  getAllSponsors
+  getAll
 }

@@ -16,13 +16,13 @@ const UserSchema = mongoose.Schema({
   }
 });
 
-UserSchema.statics.getUser = function(id) {
+UserSchema.statics.getUser = (id) => {
   return User.findOne({email: id});
 };
 
 UserSchema.statics.getUserBy_Id = (_id) => {
   return User.findById(_id);
-}
+};
 
 UserSchema.pre('save', function(next) {
   const user = this;

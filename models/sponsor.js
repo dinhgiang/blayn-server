@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 
 const SponsorSchema = mongoose.Schema({
-  userID: {
-    type: String,
-    required: true
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'users'
   },
   companyName: {
     type: String,
@@ -82,7 +83,7 @@ const SponsorSchema = mongoose.Schema({
   }
 });
 
-SponsorSchema.statics.getAllSponsors = function() {
+SponsorSchema.statics.getAll = () => {
   return Sponsor.find();
 };
 
