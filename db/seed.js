@@ -40,7 +40,7 @@ const sponsor = [{
   position: "leader",
   logo: '../images/Framgia.jpg',
   CEOName: "hihi",
-  dateOfEstablished: new Date(2010),
+  dateOfEstablished: new Date("2010"),
   numberOfEmployees: 1000,
   industry: "none",
   websiteURL: "https://uet.vnu.edu.vn",
