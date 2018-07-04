@@ -4,11 +4,13 @@ const router = express.Router();
 const { authenticate } = require('../middlewares/authenticate.js');
 
 // allow cors
-router.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+if (process.env.NODE_ENV === "development") {
+  router.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+};
 
 const user = require('../controllers/user.js');
 const event = require('../controllers/event.js');
@@ -20,6 +22,7 @@ router.get('/sponsors', authenticate, sponsor.getAll);
 router.get('/students', authenticate, student.getAll);
 router.get('/student/profile', authenticate, student.getProfile)
 router.get('/student/history', authenticate, student.getHistory);
+router.get('/sponsor/events', authenticate, sponsor.getEvents)
 
 router.post('/user/login', user.login);
 

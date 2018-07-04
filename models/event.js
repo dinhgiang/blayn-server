@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const { Student } = require('../models/student.js');
+
 const EventSchema = mongoose.Schema({
   title: {
     type: String,
@@ -45,11 +47,37 @@ const EventSchema = mongoose.Schema({
     type: Number,
     require: true
   },
+  followingStudents: [{
+    studentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      require: true,
+      ref: 'students'
+    },
+    visitedTime: {
+      type: Date,
+      default: null
+    }
+  }]
 })
 
 EventSchema.statics.getAll = () => {
   return Event.find();
 };
+
+EventSchema.statics.getEventsForSponsor = (sponsorId) => {
+  return Event.find({sponsorId: sponsorId});
+};
+
+EventSchema.statics.getHistory = async (userId) => {
+  const student = await Student.findOne({userId: userId});
+  
+  const followingEvents = await Event
+  .find({
+    'followingStudents.studentId': student._id
+    })
+  .where('followingStudents.visitedTime').ne(null);
+  return followingEvents;
+}
 
 const Event = mongoose.model('events', EventSchema);
 

@@ -4,7 +4,6 @@ const { Event } = require('../models/event');
 const { Sponsor } = require('../models/sponsor');
 const { Student } = require('../models/student');
 const { User } = require('../models/user');
-const { EventStudent } = require('../models/eventstudent');
 
 const user = [{
   _id : new ObjectID(),
@@ -49,20 +48,6 @@ const sponsor = [{
   deadline: ''
 }];
 
-const event = [{
-  _id: new ObjectID(),
-  title: "Free coffee",
-  date: new Date("6-6-2018"),
-  startingTime: new Date("2018-06-27T14:00:00"),
-  endingTime: new Date("2018-06-27T17:00:00"),
-  joinedStudents: 30,
-  description: "",
-  image: "",
-  sponsorId: sponsor[0]._id,
-  status: "approve",
-  unavailableSeats: 20
-}];
-
 const student = [{
   _id: new ObjectID(),
   userId: user[0]._id,
@@ -95,19 +80,25 @@ const student = [{
   memberDeadline: new Date("2018-08-20")
 }];
 
-const eventstudent = [{
-  _id : new ObjectID(),
-  studentId: student[0]._id,
-  eventId: event[0]._id,
-  status: "follow",
-  visitedTime: new Date('07/30/2018')
-}, {
-  _id : new ObjectID(),
-  studentId: student[1]._id,
-  eventId: event[0]._id,
-  status: "follow",
-  visitedTime: new Date('07/30/2018')
-}]
+const event = [{
+  _id: new ObjectID(),
+  title: "Free coffee",
+  date: new Date("6-6-2018"),
+  startingTime: new Date("2018-06-27T14:00:00"),
+  endingTime: new Date("2018-06-27T17:00:00"),
+  joinedStudents: 30,
+  description: "",
+  image: "",
+  sponsorId: sponsor[0]._id,
+  status: "approve",
+  unavailableSeats: 20,
+  followingStudents: [{
+    studentId: student[0]._id,
+    visitedTime: new Date("2018-07-20T10:30:00")
+  }, {
+    studentId: student[1]._id
+  }]
+}];
 
 Event.remove({}).then(() => {
   Event.insertMany(event);
@@ -126,8 +117,4 @@ User.remove({}).then(() => {
     const e = new User(el);
     e.save();
   })
-});
-
-EventStudent.remove({}).then(() => {
-  EventStudent.insertMany(eventstudent);
 });
