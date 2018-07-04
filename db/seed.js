@@ -53,8 +53,8 @@ const event = [{
   _id: new ObjectID(),
   title: "Free coffee",
   date: new Date("6-6-2018"),
-  startingTime: new Date(2018, 06, 27, 14, 00, 00),
-  endingTime: new Date(2018, 06, 27, 17, 00, 00),
+  startingTime: new Date("2018-06-27T14:00:00"),
+  endingTime: new Date("2018-06-27T17:00:00"),
   joinedStudents: 30,
   description: "",
   image: "",
@@ -70,7 +70,7 @@ const student = [{
   givenName: "Van Giang",
   gender: "male",
   avatar: "",
-  admissionYear: new Date(2016),
+  admissionYear: new Date("2016"),
   department: "none",
   dateOfBirth: new Date("01/01/1998"),
   studentCard: "none",
@@ -85,14 +85,14 @@ const student = [{
   givenName: "Hoang Giang",
   gender: "male",
   avatar: "",
-  admissionYear: new Date(2016),
+  admissionYear: new Date("2016"),
   department: "none",
-  dateOfBirth: new Date(1998, 03, 23),
+  dateOfBirth: new Date("1998-10-23"),
   studentCard: "none",
   studentNumber: 16020928,
   barcode: "asdf",
   status: "under review",
-  memberDeadline: new Date(2018, 08, 20)
+  memberDeadline: new Date("2018-08-20")
 }];
 
 const eventstudent = [{
