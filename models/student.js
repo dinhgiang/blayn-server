@@ -83,11 +83,19 @@ StudentSchema.statics.getHistory = async (userId) => {
   const student = await Student.findOne({userId: userId});
   
   const followingEvents = await Event
-  .find({
-    'followingStudents.studentId': student._id
-    })
-  // .where('followingStudents.visitedTime').ne(null);
-  return followingEvents;
+    .find()
+    .where('followingStudents')
+    .elemMatch({ 
+      studentId: student._id, 
+      visitedTime: { $ne: null } 
+    });
+
+  const history = followingEvents.map(event => {
+    return event.followingStudents.filter(el => el.studentId.toString() === student._id.toString())[0];
+  })
+    .sort((a, b) => new Date(b.visitedTime) - new Date(a.visitedTime));
+
+  return history;
 };
 
 const Student = mongoose.model('students', StudentSchema);

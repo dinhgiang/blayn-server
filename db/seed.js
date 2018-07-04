@@ -111,7 +111,8 @@ const event = [{
     studentId: student[0]._id,
     visitedTime: new Date("2018-07-20T10:30:00")
   }, {
-    studentId: student[1]._id
+    studentId: student[1]._id,
+    visitedTime: new Date("2017-07-20T10:30:00")
   }]
 }, {
   _id: new ObjectID(),
