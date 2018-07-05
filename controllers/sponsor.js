@@ -10,7 +10,13 @@ const getEvents = async (req, res) => {
   res.send(events);
 };
 
+const getProfile = async (req, res) => {
+  const sponsor = await Sponsor.getProfile(req.sender._id);
+  res.send(sponsor);
+};
+
 module.exports = {
   getAll,
-  getEvents
-}
+  getEvents,
+  getProfile
+};

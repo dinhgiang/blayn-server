@@ -25,6 +25,11 @@ const user = [{
   email: "blayn",
   password: "12345678",
   role: "root"
+}, {
+  _id : new ObjectID(),
+  email: "sponsor@gmail.com",
+  password: "12345678",
+  role: "sponsor"
 }];
 
 const sponsor = [{
@@ -45,6 +50,25 @@ const sponsor = [{
   websiteURL: "https://uet.vnu.edu.vn",
   introduction1: "this is introduction",
   timesPerMonth: 2,
+  deadline: ''
+}, {
+  _id: new ObjectID(),
+  userId: user[4]._id,
+  companyName: "UET",
+  staffName: "sponsor",
+  staffRubyName: "sponsor",
+  companyAddress: "xuan thuy",
+  companyPhone: 01234567,
+  department: "",
+  position: "leader",
+  logo: '../images/Framgia.jpg',
+  CEOName: "hissshi",
+  dateOfEstablished: new Date("2010"),
+  numberOfEmployees: 1000,
+  industry: "none",
+  websiteURL: "https://uet.vnu.edu.vn",
+  introduction1: "this is introduction",
+  timesPerMonth: 0,
   deadline: ''
 }];
 
