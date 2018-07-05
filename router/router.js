@@ -3,15 +3,6 @@ const router = express.Router();
 
 const { authenticate } = require('../middlewares/authenticate.js');
 
-// allow cors
-if (process.env.NODE_ENV === "development") {
-  router.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
-};
-
 const user = require('../controllers/user.js');
 const event = require('../controllers/event.js');
 const sponsor = require('../controllers/sponsor.js');
