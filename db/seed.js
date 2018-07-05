@@ -39,17 +39,16 @@ const sponsor = [{
   staffName: "Truong Quoc Dat",
   staffRubyName: "dat9.8",
   companyAddress: "144 xuan thuy",
-  companyPhone: 01234567,
+  companyPhone: "01234567",
   department: "E3",
   position: "leader",
   logo: '../images/Framgia.jpg',
   CEOName: "hihi",
-  dateOfEstablished: new Date("2010"),
+  dateOfEstablished: "01/01/2010",
   numberOfEmployees: 1000,
   industry: "none",
   websiteURL: "https://uet.vnu.edu.vn",
   introduction1: "this is introduction",
-  timesPerMonth: 2,
   deadline: ''
 }, {
   _id: new ObjectID(),
@@ -58,17 +57,16 @@ const sponsor = [{
   staffName: "sponsor",
   staffRubyName: "sponsor",
   companyAddress: "xuan thuy",
-  companyPhone: 01234567,
+  companyPhone: "01234567",
   department: "",
   position: "leader",
   logo: '../images/Framgia.jpg',
   CEOName: "hissshi",
-  dateOfEstablished: new Date("2010"),
+  dateOfEstablished: "10/01/2010",
   numberOfEmployees: 1000,
   industry: "none",
   websiteURL: "https://uet.vnu.edu.vn",
   introduction1: "this is introduction",
-  timesPerMonth: 0,
   deadline: ''
 }];
 
@@ -79,14 +77,14 @@ const student = [{
   givenName: "Van Giang",
   gender: "male",
   avatar: "",
-  admissionYear: new Date("2016"),
+  admissionYear: "2016",
   department: "none",
-  dateOfBirth: new Date("01/01/1998"),
+  dateOfBirth: "01/01/1998",
   studentCard: "none",
-  studentNumber: 16020926,
+  studentNumber: "16020926",
   barcode: "asdf",
   status: "member",
-  memberDeadline: new Date("08/20/2018")
+  memberDeadline: "10/09/2020"
 }, {
   _id: new ObjectID(),
   userId: user[1]._id,
@@ -94,14 +92,14 @@ const student = [{
   givenName: "Hoang Giang",
   gender: "male",
   avatar: "",
-  admissionYear: new Date("2016"),
+  admissionYear: "2016",
   department: "none",
-  dateOfBirth: new Date("1998-10-23"),
+  dateOfBirth: "23/10/1998",
   studentCard: "none",
-  studentNumber: 16020928,
+  studentNumber: "16020928",
   barcode: "asdf",
   status: "under review",
-  memberDeadline: new Date("2018-08-20")
+  memberDeadline: "20/08/2020"
 }, {
   _id: new ObjectID(),
   userId: user[1]._id,
@@ -109,20 +107,20 @@ const student = [{
   givenName: "Huy Nhat Quang",
   gender: "female",
   avatar: "",
-  admissionYear: new Date("2016"),
+  admissionYear: "2016",
   department: "none",
-  dateOfBirth: new Date("1998-07-02"),
+  dateOfBirth: "02/07/1998",
   studentCard: "none",
-  studentNumber: 16020928,
+  studentNumber: "16020928",
   barcode: "asdf",
   status: "under review",
-  memberDeadline: new Date("2018-08-20")
+  memberDeadline: "30/08/2020"
 }];
 
 const event = [{
   _id: new ObjectID(),
   title: "Free coffee",
-  date: new Date("6-6-2018"),
+  date: "09/09/2018",
   startingTime: new Date("2018-06-27T14:00:00"),
   endingTime: new Date("2018-06-27T17:00:00"),
   joinedStudents: 30,
@@ -141,7 +139,7 @@ const event = [{
 }, {
   _id: new ObjectID(),
   title: "Free cafe",
-  date: new Date("6-6-2018"),
+  date: "06/06/2018",
   startingTime: new Date("2018-06-27T14:00:00"),
   endingTime: new Date("2018-06-27T17:00:00"),
   joinedStudents: 50,

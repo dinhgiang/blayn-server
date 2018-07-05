@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const { Event } = require('./event.js');
+const { User } = require('./user.js');
 
 const StudentSchema = mongoose.Schema({
   userId: {
@@ -27,7 +28,7 @@ const StudentSchema = mongoose.Schema({
     require: false
   },
   admissionYear: {
-    type: Number,
+    type: String,
     require: true
   },
   department: {
@@ -35,7 +36,7 @@ const StudentSchema = mongoose.Schema({
     require: true
   },
   dateOfBirth: {
-    type: Date,
+    type: String,
     require: true,
     default: 0
   },
@@ -44,7 +45,7 @@ const StudentSchema = mongoose.Schema({
     require: false
   },
   studentNumber: {
-    type: Number,
+    type: String,
     require: true
   },
   barcode: {
@@ -56,7 +57,7 @@ const StudentSchema = mongoose.Schema({
     require: true
   },
   memberDeadline: {
-    type: Date,
+    type: String,
     require: true
   }
 });
@@ -66,17 +67,11 @@ StudentSchema.statics.getAll = () => {
 };
 
 StudentSchema.statics.getProfile = async (userId) => {
-  const student = await Student.findOne({ userId: userId })
-    .populate({path: 'userId', select: 'email'}).select('-__v');
+  const user = await User.findById(userId);
+  const student = await Student.findOne({ userId: userId }).select('-__v');
   
-  const result = {
-    ...student._doc
-  }
-
-  result.email = result.userId.email;
-  result.userId = result.userId._id;
-
-  return result;  
+  student._doc.email = user.email;
+  return student;  
 };
 
 StudentSchema.statics.getHistory = async (userId) => {

@@ -29,7 +29,7 @@ const SponsorSchema = mongoose.Schema({
     require: true
   },
   companyPhone: {
-    type: Number,
+    type: String,
     require: true
   },
   department: {
@@ -52,7 +52,7 @@ const SponsorSchema = mongoose.Schema({
     require: true
   },
   dateOfEstablished: {
-    type: Date,
+    type: String,
     require: true
   },
   numberOfEmployees: {
@@ -76,13 +76,8 @@ const SponsorSchema = mongoose.Schema({
     require: false,
     default: null
   },
-  timesPerMonth: {
-    type: Number,
-    require: false,
-    default: 0
-  },
   deadline: {
-    type: Date,
+    type: String,
   }
 });
 
@@ -98,7 +93,9 @@ SponsorSchema.statics.getEvents = async (userId) => {
 };
 
 SponsorSchema.statics.getProfile = async (userId) => {
+  const user = await User.findById(userId);
   const sponsor = await Sponsor.findOne({userId : userId}).select('-__v');
+  sponsor._doc.email = user.email;
   return sponsor;
 };
 

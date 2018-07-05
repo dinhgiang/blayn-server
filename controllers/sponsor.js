@@ -1,7 +1,8 @@
-const { Sponsor } = require('../models/sponsor.js');
 const fs = require('fs');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const path = require('path');
+
+const { Sponsor } = require('../models/sponsor.js');
 
 const getAll = async (req, res) => {
   const sponsors = await Sponsor.getAll();
@@ -20,38 +21,43 @@ const getProfile = async (req, res) => {
 
 const downloadCsv = async (req, res) => {
   try {
-    const csvPath = './public/file.csv';
+    const csvPath = './public/csv/sponsors.csv';
 
-    // fetch sponsors data
     const sponsors = await Sponsor.getAll();
 
-    // delete file if exist
     if (fs.existsSync(csvPath)) {
       fs.unlinkSync(csvPath);
     }
     
-    // generate new csv file
     const csvWriter = createCsvWriter({
       path: csvPath,
       header: [
-          {id: 'department', title: 'department'},
-          {id: 'position', title: 'position'},
-          {id: 'introduction1', title: 'introduction1'},
-          {id: 'introduction2', title: 'introduction2'},
-          {id: 'dateOfEstablished', title: 'Ngay thanh lap'},
+          { id: 'companyname', title: 'Company name' },
+          { id: 'staffName', title: 'Staff name' },
+          { id: 'staffRubyName', title: 'Ruby of staff name' },
+          { id: 'companyAddress', title: 'Company address' },
+          { id: 'companyPhone', title: 'Company phone' },
+          { id: 'department', title: 'Department' },
+          { id: 'position', title: 'Position' },
+          { id: 'CEOName', title: 'CEO name' },
+          { id: 'dateOfEstablished', title: 'Date of established' },
+          { id: 'numberOfEmployees', title: 'Number of employees' },
+          { id: 'industry', title: 'Industry' },
+          { id: 'websiteURL', title: 'Website' },
+          { id: 'introduction1', title: 'Introduction 1' },
+          { id: 'introduction2', title: 'Introduction 2' }
       ]
     });
 
     await csvWriter.writeRecords(sponsors);
 
-    // send file to client
     res.sendFile(path.join(__dirname, '..', csvPath));
   } catch (e) {
     res.status(404).send({
       message: 'File not found'
     });
   }
-}
+};
 
 module.exports = {
   getAll,
