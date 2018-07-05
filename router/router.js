@@ -24,6 +24,7 @@ router.get('/student/profile', authenticate, student.getProfile)
 router.get('/student/history', authenticate, student.getHistory);
 router.get('/sponsor/events', authenticate, sponsor.getEvents);
 router.get('/sponsor/profile', authenticate, sponsor.getProfile);
+router.get('/sponsors/download', authenticate, sponsor.downloadCsv);
 
 router.post('/user/login', user.login);
 
