@@ -22,7 +22,7 @@ router.get('/sponsors', authenticate, sponsor.getAll);
 router.get('/students', authenticate, student.getAll);
 router.get('/student/profile', authenticate, student.getProfile)
 router.get('/student/history', authenticate, student.getHistory);
-router.get('/sponsor/events', authenticate, sponsor.getEvents)
+router.get('/sponsor/events', authenticate, sponsor.getEvents);
 
 router.post('/user/login', user.login);
 

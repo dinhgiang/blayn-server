@@ -105,7 +105,7 @@ const event = [{
   description: "",
   image: "",
   sponsorId: sponsor[0]._id,
-  status: "approve",
+  status: "end",
   unavailableSeats: 20,
   followingStudents: [{
     studentId: student[0]._id,
@@ -124,7 +124,7 @@ const event = [{
   description: "asfd",
   image: "",
   sponsorId: sponsor[0]._id,
-  status: "approve",
+  status: "holding",
   unavailableSeats: 10,
   followingStudents: [{
     studentId: student[1]._id,

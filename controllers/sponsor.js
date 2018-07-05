@@ -1,5 +1,4 @@
 const { Sponsor } = require('../models/sponsor.js');
-const { Event } = require('../models/event.js');
 
 const getAll = async (req, res) => {
   const sponsors = await Sponsor.getAll();
@@ -7,7 +6,7 @@ const getAll = async (req, res) => {
 };
 
 const getEvents = async (req, res) => {
-  const events = await Event.getEventsForSponsor(req.sender._id);
+  const events = await Sponsor.getEvents(req.sender._id);
   res.send(events);
 };
 

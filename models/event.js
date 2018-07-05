@@ -59,11 +59,7 @@ const EventSchema = mongoose.Schema({
 })
 
 EventSchema.statics.getAll = () => {
-  return Event.find();
-};
-
-EventSchema.statics.getEventsForSponsor = (sponsorId) => {
-  return Event.find({sponsorId: sponsorId});
+  return Event.find().select('-__v');
 };
 
 const Event = mongoose.model('events', EventSchema);

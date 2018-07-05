@@ -62,12 +62,12 @@ const StudentSchema = mongoose.Schema({
 });
 
 StudentSchema.statics.getAll = () => {
-  return Student.find();
+  return Student.find().select('-__v');
 };
 
 StudentSchema.statics.getProfile = async (userId) => {
   const student = await Student.findOne({ userId: userId })
-    .populate({path: 'userId', select: 'email'});
+    .populate({path: 'userId', select: 'email'}).select('-__v');
   
   const result = {
     ...student._doc

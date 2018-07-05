@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const { Event } = require('./event.js');
+
 const SponsorSchema = mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -84,8 +86,15 @@ const SponsorSchema = mongoose.Schema({
 });
 
 SponsorSchema.statics.getAll = () => {
-  return Sponsor.find();
+  return Sponsor.find().select('-__v');
 };
+
+SponsorSchema.statics.getEvents = async (userId) => {
+  const sponsor = await Sponsor.findOne({userId: userId});
+
+  const events = Event.find({sponsorId: sponsor._id}).select('-__v');
+  return events;
+}
 
 const Sponsor = mongoose.model('sponsors', SponsorSchema);
 
