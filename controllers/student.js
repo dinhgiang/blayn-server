@@ -56,9 +56,13 @@ const signup = async (req, res) => {
   let student = req.body;
   student.avatar = req.files.avatar[0].path;
   student.studentCard = req.files.studentCard[0].path;
-  console.log(student);
-  
-  // await Student.createNew(student);
+  student.role = "student";
+  try {
+    await Student.createNew(student);
+    res.status(200).send({message: "signup successed"});
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
 };
 
 module.exports = {
