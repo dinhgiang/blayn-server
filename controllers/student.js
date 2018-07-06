@@ -23,11 +23,11 @@ const downloadCsv = async (req, res) => {
   try {
     const csvPath = './public/csv/students.csv';
     const students = await Student.getAll();
-
+    
     if (fs.existsSync(csvPath)) {
       fs.unlinkSync(csvPath);
     }
-
+    
     const csvWriter = createCsvWriter({
       path: csvPath,
       header: [
@@ -41,9 +41,9 @@ const downloadCsv = async (req, res) => {
         { id: 'status', title: 'Status'}
       ]
     });
-
+    
     await csvWriter.writeRecords(students);
-
+    
     res.sendFile(path.join(__dirname, '..', csvPath));
   } catch (err) {
     res.status(404).send({
@@ -52,9 +52,19 @@ const downloadCsv = async (req, res) => {
   };
 };
 
+const signup = async (req, res) => {
+  let student = req.body;
+  student.avatar = req.files.avatar[0].path;
+  student.studentCard = req.files.studentCard[0].path;
+  console.log(student);
+  
+  // await Student.createNew(student);
+};
+
 module.exports = {
   getAll,
   getProfile,
   getHistory,
-  downloadCsv
+  downloadCsv,
+  signup
 };

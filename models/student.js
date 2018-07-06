@@ -93,6 +93,10 @@ StudentSchema.statics.getHistory = async (userId) => {
   return history;
 };
 
+StudentSchema.statics.createNew = (student) => {
+  Student.insertMany(student);
+};
+
 const Student = mongoose.model('students', StudentSchema);
 
 module.exports = {
