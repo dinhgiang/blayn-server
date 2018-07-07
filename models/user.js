@@ -9,7 +9,8 @@ const UserSchema = mongoose.Schema({
     unique: true
   },
   password: {
-    type: String
+    type: String,
+    required: true
   },
   role: {
     type: String

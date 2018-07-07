@@ -25,28 +25,28 @@ const StudentSchema = mongoose.Schema({
   },
   avatar: {
     type: String,
-    require: false
+    required: false
   },
   admissionYear: {
     type: String,
-    require: true
+    required: true
   },
   department: {
     type: String,
-    require: true
+    required: true
   },
   dateOfBirth: {
     type: String,
-    require: true,
+    required: true,
     default: 0
   },
   studentCard: {
     type: String,
-    require: false
+    required: true
   },
   studentNumber: {
     type: String,
-    require: true
+    required: true
   },
   barcode: {
     type: String,
@@ -54,11 +54,12 @@ const StudentSchema = mongoose.Schema({
   },
   status: {
     type: String,
-    require: true
+    required: false,
+    default: "under review"
   },
   memberDeadline: {
     type: String,
-    require: true
+    required: false
   }
 });
 
@@ -98,7 +99,7 @@ StudentSchema.statics.createNew = async (student) => {
   const newUser = await user.save();
   const newStudent = new Student(student);
   newStudent.userId = newUser._id;
-  await newStudent.save();
+  return await newStudent.save();
 };
 
 const Student = mongoose.model('students', StudentSchema);

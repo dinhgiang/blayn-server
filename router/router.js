@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { authenticate } = require('../middlewares/authenticate.js');
-const storage = require('../middlewares/storage');
+const storage = require('../middlewares/storage.js');
 
 const user = require('../controllers/user.js');
 const event = require('../controllers/event.js');
@@ -20,7 +20,7 @@ router.get('/sponsors/download', authenticate, sponsor.downloadCsv);
 router.get('/students/download', authenticate, student.downloadCsv);
 
 router.post('/user/login', user.login);
-
 router.post('/student/signup', storage.uploadStudentProfile, student.signup);
+router.post('/event', authenticate, storage.uploadEventImage, sponsor.createEvent);
 
 module.exports = router;

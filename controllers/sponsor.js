@@ -22,7 +22,6 @@ const getProfile = async (req, res) => {
 const downloadCsv = async (req, res) => {
   try {
     const csvPath = './public/csv/sponsors.csv';
-
     const sponsors = await Sponsor.getAll();
 
     if (fs.existsSync(csvPath)) {
@@ -50,7 +49,6 @@ const downloadCsv = async (req, res) => {
     });
 
     await csvWriter.writeRecords(sponsors);
-
     res.sendFile(path.join(__dirname, '..', csvPath));
   } catch (e) {
     res.status(404).send({
@@ -59,9 +57,17 @@ const downloadCsv = async (req, res) => {
   }
 };
 
+const createEvent = (req, res) => {
+  console.log(req.body);
+  console.log(req.file);
+  res.send(req.body);
+  
+};
+
 module.exports = {
   getAll,
   getEvents,
   getProfile,
-  downloadCsv
+  downloadCsv,
+  createEvent
 };

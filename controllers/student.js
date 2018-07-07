@@ -53,15 +53,28 @@ const downloadCsv = async (req, res) => {
 };
 
 const signup = async (req, res) => {
-  let student = req.body;
+  const student = req.body;
   student.avatar = req.files.avatar[0].path;
   student.studentCard = req.files.studentCard[0].path;
   student.role = "student";
+  
+  const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  
   try {
-    await Student.createNew(student);
-    res.status(200).send({message: "signup successed"});
+    if (!student.password) {
+      throw new Error("password is required");
+    }
+    if (student.password.length < 8) {
+      throw new Error("password is too short");
+    } 
+    if (!emailRegex.test(student.email)) {
+      throw new Error("email is invalid");
+    }
+    
+    const newStudent = await Student.createNew(student);
+    res.status(200).send(newStudent);
   } catch (err) {
-    res.status(400).send(err.message);
+    res.status(400).send({message: err.message});
   }
 };
 

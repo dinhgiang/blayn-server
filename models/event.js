@@ -8,47 +8,47 @@ const EventSchema = mongoose.Schema({
   },
   date: {
     type: String,
-    require: true
+    required: true
   },
   startingTime: {
     type: Date,
-    require: true
+    required: true
   },
   endingTime: {
     type: Date,
-    require: true
+    required: true
   },
   joinedStudents: {
     type: Number,
-    require: true,
+    required: false,
     default: 0
   },
   description: {
     type: String,
-    require: false,
+    required: false,
     default: null
   },
   image: {
     type: String,
-    require: true
+    required: true
   },
   sponsorId: {
     type: mongoose.Schema.Types.ObjectId,
-    require: true,
+    required: true,
     ref: 'sponsors'
   },
   status: {
     type: String,
-    require: true
+    required: true
   },
   unavailableSeats: {
     type: Number,
-    require: true
+    required: true
   },
   followingStudents: [{
     studentId: {
       type: mongoose.Schema.Types.ObjectId,
-      require: true,
+      required: true,
       ref: 'students'
     },
     visitedTime: {

@@ -82,7 +82,7 @@ const student = [{
   dateOfBirth: "01/01/1998",
   studentCard: "none",
   studentNumber: "16020926",
-  barcode: "asdf",
+  barcode: "12345",
   status: "member",
   memberDeadline: "10/09/2020"
 }, {
@@ -97,7 +97,7 @@ const student = [{
   dateOfBirth: "23/10/1998",
   studentCard: "none",
   studentNumber: "16020928",
-  barcode: "asdf",
+  barcode: "12345",
   status: "under review",
   memberDeadline: "20/08/2020"
 }, {
@@ -112,7 +112,7 @@ const student = [{
   dateOfBirth: "02/07/1998",
   studentCard: "none",
   studentNumber: "16020928",
-  barcode: "asdf",
+  barcode: "12345",
   status: "under review",
   memberDeadline: "30/08/2020"
 }];
@@ -125,7 +125,7 @@ const event = [{
   endingTime: new Date("2018-06-27T17:00:00"),
   joinedStudents: 30,
   description: "",
-  image: "",
+  image: "cccc",
   sponsorId: sponsor[0]._id,
   status: "end",
   unavailableSeats: 20,
@@ -144,7 +144,7 @@ const event = [{
   endingTime: new Date("2018-06-27T17:00:00"),
   joinedStudents: 50,
   description: "asfd",
-  image: "",
+  image: "dddd",
   sponsorId: sponsor[0]._id,
   status: "holding",
   unavailableSeats: 10,
