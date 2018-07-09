@@ -21,6 +21,6 @@ router.get('/students/download', authenticate, student.downloadCsv);
 
 router.post('/user/login', user.login);
 router.post('/student/signup', storage.uploadStudentProfile, student.signup);
-router.post('/event', authenticate, storage.uploadEventImage, sponsor.createEvent);
-
+router.post('/event/create', authenticate, storage.uploadEventImage, event.createEvent);
+router.post('/sponsor/create', authenticate, storage.uploadSponsorProfile, sponsor.createSponsor)
 module.exports = router;

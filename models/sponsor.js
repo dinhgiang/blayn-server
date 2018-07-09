@@ -99,9 +99,11 @@ SponsorSchema.statics.getProfile = async (userId) => {
   return sponsor;
 };
 
-SponsorSchema.statics.createEvent = async (event) => {
-  const newEvent = new Event(event);
-  return await newEvent.save();
+SponsorSchema.statics.createSponsor = async (sponsor) => {
+  const user = await new User(sponsor).save();
+  const newSponsor = new Sponsor(sponsor);
+  newSponsor.userId = user._id;
+  return await newSponsor.save();
 }
 
 const Sponsor = mongoose.model('sponsors', SponsorSchema);
