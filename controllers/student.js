@@ -23,11 +23,11 @@ const downloadCsv = async (req, res) => {
   try {
     const csvPath = './public/csv/students.csv';
     const students = await Student.getAll();
-
+    
     if (fs.existsSync(csvPath)) {
       fs.unlinkSync(csvPath);
     }
-
+    
     const csvWriter = createCsvWriter({
       path: csvPath,
       header: [
@@ -41,9 +41,9 @@ const downloadCsv = async (req, res) => {
         { id: 'status', title: 'Status'}
       ]
     });
-
+    
     await csvWriter.writeRecords(students);
-
+    
     res.sendFile(path.join(__dirname, '..', csvPath));
   } catch (err) {
     res.status(404).send({
@@ -52,9 +52,36 @@ const downloadCsv = async (req, res) => {
   };
 };
 
+const signup = async (req, res) => {
+  const student = req.body;
+  student.avatar = req.files.avatar[0].path;
+  student.studentCard = req.files.studentCard[0].path;
+  student.role = "student";
+  
+  const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  
+  try {
+    if (!student.password) {
+      throw new Error("password is required");
+    }
+    if (student.password.length < 8) {
+      throw new Error("password is too short");
+    } 
+    if (!emailRegex.test(student.email)) {
+      throw new Error("email is invalid");
+    }
+    
+    const newStudent = await Student.createNew(student);
+    res.status(200).send(newStudent);
+  } catch (err) {
+    res.status(400).send({message: err.message});
+  }
+};
+
 module.exports = {
   getAll,
   getProfile,
   getHistory,
-  downloadCsv
+  downloadCsv,
+  signup
 };

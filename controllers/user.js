@@ -9,7 +9,7 @@ const login = async (req, res) => {
     const user = await User.getUser(id);
 
     if (user == null) {
-      throw new Error('Invailid username');
+      throw new Error('Invalid username');
     } 
     const match = await bcrypt.compare(password, user.password);
     if (match) {
@@ -27,7 +27,7 @@ const login = async (req, res) => {
         role: user.role
       });
     } else {
-      throw new Error('Invailid password');
+      throw new Error('Invalid password');
     }
   } catch (e) {
     res.status(401).send({

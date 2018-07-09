@@ -16,64 +16,64 @@ const SponsorSchema = mongoose.Schema({
   },
   staffName: {
     type: String,
-    require: true,
+    required: true,
     trim: true
   },
   staffRubyName: {
     type: String,
-    require: true,
+    required: true,
     trim: true
   },
   companyAddress: {
     type: String,
-    require: true
+    required: true
   },
   companyPhone: {
     type: String,
-    require: true
+    required: true
   },
   department: {
     type: String,
-    require: false,
+    required: false,
     default: null
   },
   position: {
     type: String,
-    require: false,
+    required: false,
     default: null
   },
   logo: {
     type: String,
-    require: false,
+    required: false,
     default: null
   },
   CEOName: {
     type: String,
-    require: true
+    required: true
   },
   dateOfEstablished: {
     type: String,
-    require: true
+    required: true
   },
   numberOfEmployees: {
     type: Number,
-    require: true
+    required: true
   },
   industry: {
     type: String,
-    require: true
+    required: true
   },
   websiteURL: {
     type: String,
-    require: true
+    required: true
   },
   introduction1: {
     type: String,
-    require: true
+    required: true
   },
   introduction2: {
     type: String,
-    require: false,
+    required: false,
     default: null
   },
   deadline: {
@@ -98,6 +98,11 @@ SponsorSchema.statics.getProfile = async (userId) => {
   sponsor._doc.email = user.email;
   return sponsor;
 };
+
+SponsorSchema.statics.createEvent = async (event) => {
+  const newEvent = new Event(event);
+  return await newEvent.save();
+}
 
 const Sponsor = mongoose.model('sponsors', SponsorSchema);
 
