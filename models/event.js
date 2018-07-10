@@ -59,9 +59,22 @@ const EventSchema = mongoose.Schema({
   }]
 });
 
-EventSchema.statics.getAll = () => {
-  return Event.find().select('-__v');
+EventSchema.statics.getAllForRoot = () => {
+  return Event.find().where('status').ne('draft').select('-__v');
 };
+
+EventSchema.statics.getAllForStudent = () => {
+  return Event.find({status: 'approved'}).select('-__v -status');
+};
+
+EventSchema.statics.getAllForSponsor = () => {
+  return Event.find({status: 'approved'}).select('title date startingTime');
+};
+
+EventSchema.statics.createEvent = async (event) => {
+  const newEvent = new Event(event);
+  return await newEvent.save();
+}
 
 const Event = mongoose.model('events', EventSchema);
 

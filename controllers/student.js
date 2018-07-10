@@ -3,6 +3,7 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const path = require('path');
 
 const { Student } = require('../models/student.js');
+const { isEmail } = require('../utilities/validate.js');
 
 const getAll = async (req, res) => {
   const students = await Student.getAll();
@@ -58,8 +59,6 @@ const signup = async (req, res) => {
   student.studentCard = req.files.studentCard[0].path;
   student.role = "student";
   
-  const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  
   try {
     if (!student.password) {
       throw new Error("password is required");
@@ -67,7 +66,7 @@ const signup = async (req, res) => {
     if (student.password.length < 8) {
       throw new Error("password is too short");
     } 
-    if (!emailRegex.test(student.email)) {
+    if (!isEmail(student.email)) {
       throw new Error("email is invalid");
     }
     

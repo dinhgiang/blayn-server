@@ -97,10 +97,9 @@ StudentSchema.statics.getHistory = async (userId) => {
 };
 
 StudentSchema.statics.createNew = async (student) => {
-  const user = new User(student);
-  const newUser = await user.save();
+  const user = await new User(student).save();
   const newStudent = new Student(student);
-  newStudent.userId = newUser._id;
+  newStudent.userId = user._id;
   return await newStudent.save();
 };
 
