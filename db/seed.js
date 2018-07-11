@@ -42,7 +42,7 @@ const sponsor = [{
   companyPhone: "01234567",
   department: "E3",
   position: "leader",
-  logo: 'public/images/sponsors/Framgia.jpg',
+  logo: 'public/images/sponsors/Framgia.png',
   CEOName: "hihi",
   dateOfEstablished: "01/01/2010",
   numberOfEmployees: 1000,
