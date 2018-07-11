@@ -77,7 +77,7 @@ const createSponsor = async (req, res) => {
     const newSponsor = await Sponsor.createSponsor(sponsor);
     res.send(newSponsor);
   } catch (err) {
-    res.send({message: err.message});
+    res.status(400).send({message: err.message});
   }
 }
 

@@ -125,7 +125,7 @@ const event = [{
   endingTime: "17:00:00",
   joinedStudents: 30,
   description: "",
-  image: "asdfasdf",
+  image: "public/images/events/image-1531127624181.png",
   sponsorId: sponsor[0]._id,
   status: "under review",
   unavailableSeats: 20,
@@ -165,7 +165,7 @@ const event = [{
   status: "approved",
   unavailableSeats: 10,
   followingStudents: [{
-    studentId: student[1]._id,
+    studentId: student[2]._id,
     visitedTime: new Date("2018-07-20T10:30:00")
   }]
 }, {
@@ -180,10 +180,7 @@ const event = [{
   sponsorId: sponsor[0]._id,
   status: "denied",
   unavailableSeats: 10,
-  followingStudents: [{
-    studentId: student[1]._id,
-    visitedTime: new Date("2018-07-20T10:30:00")
-  }]
+  followingStudents: []
 }];
 
 Event.remove({}).then(() => {

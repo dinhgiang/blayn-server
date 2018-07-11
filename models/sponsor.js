@@ -81,6 +81,10 @@ const SponsorSchema = mongoose.Schema({
   }
 });
 
+SponsorSchema.statics.getByUserId = (userId) => {
+  return Sponsor.findOne({userId: userId});
+}
+
 SponsorSchema.statics.getAll = () => {
   return Sponsor.find().select('-__v');
 };
@@ -104,7 +108,7 @@ SponsorSchema.statics.createSponsor = async (sponsor) => {
   const newSponsor = new Sponsor(sponsor);
   newSponsor.userId = user._id;
   return await newSponsor.save();
-}
+};
 
 const Sponsor = mongoose.model('sponsors', SponsorSchema);
 

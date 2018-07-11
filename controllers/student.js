@@ -3,7 +3,8 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const path = require('path');
 
 const { Student } = require('../models/student.js');
-const { isEmail } = require('../utilities/validate.js');
+const { Event } = require('../models/event.js');
+const { isEmail, isDateString } = require('../utilities/validate.js');
 
 const getAll = async (req, res) => {
   const students = await Student.getAll();
@@ -77,10 +78,51 @@ const signup = async (req, res) => {
   }
 };
 
+const applyEvent = async (req, res) => {
+  const studentId = req.sender._id;
+  const eventId = req.body.eventId;
+
+  if (req.body.apply) {
+    const result = await Event.addFollowingStudent(studentId, eventId);
+    res.send(result);
+  } else {
+    const result = await Event.removeFollowingStudent(studentId, eventId);
+    res.send(result);
+  }
+};
+
+const editProfile =  async (req, res) => {
+  const student = req.body;
+  student.userId = req.sender._id;
+
+  if (!req.body.avatar) {
+    student.avatar = req.files.avatar[0].path;
+  }
+  if (!req.body.studentCard) {
+    student.studentCard = req.files.studentCard[0].path;
+  }
+
+  try {
+    if (req.sender.role !== 'student') {
+      throw new Error("user isn't student");
+    }
+    if (!isDateString(student.dateOfBirth)) {
+      throw new Error("date is invalid");
+    }
+
+    const result = await Student.editProfile(student);
+    res.send(result);
+  } catch (err) {
+    res.send({message: err.message});
+  }
+};
+
 module.exports = {
   getAll,
   getProfile,
   getHistory,
   downloadCsv,
-  signup
+  signup,
+  applyEvent,
+  editProfile
 };

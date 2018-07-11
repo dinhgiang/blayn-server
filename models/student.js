@@ -41,6 +41,11 @@ const StudentSchema = mongoose.Schema({
     required: true,
     default: 0
   },
+  phone : {
+    type: String,
+    required: false,
+    default: null
+  },
   studentCard: {
     type: String,
     required: true
@@ -101,6 +106,21 @@ StudentSchema.statics.createNew = async (student) => {
   const newStudent = new Student(student);
   newStudent.userId = user._id;
   return await newStudent.save();
+};
+
+StudentSchema.statics.editProfile = async student => {
+  return await Student.update({userId: student.userId}, {
+    avatar: student.avatar,
+    studentNumber: student.studentNumber,
+    dateOfBirth: student.dateOfBirth,
+    phone: student.phone,
+    department: student.department,
+    studentCard: student.studentCard
+  })
+  .then(result => {return "update success";})
+  .catch(err => {
+    return {message: err.message};
+  });
 };
 
 const Student = mongoose.model('students', StudentSchema);
