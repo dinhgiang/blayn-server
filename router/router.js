@@ -27,5 +27,10 @@ router.post('/sponsor/create', authenticate, storage.uploadSponsorProfile, spons
 router.put('/student/apply', authenticate, student.applyEvent);
 router.put('/student/profile', authenticate, storage.uploadStudentProfile, student.editProfile);
 router.put('/event/detail', authenticate, storage.uploadEventImage, event.editEvent);
+router.put('/sponsor/profile', authenticate, storage.uploadSponsorProfile, sponsor.editProfile);
+router.put('/event/approve', authenticate, event.approve);
+router.put('/student/approve', authenticate, student.approve);
+
+router.delete('/event', authenticate, event.removeEvent);
 
 module.exports = router;

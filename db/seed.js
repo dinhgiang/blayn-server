@@ -113,7 +113,7 @@ const student = [{
   studentCard: "none",
   studentNumber: "16020928",
   barcode: "12341235",
-  status: "under review",
+  status: "deactivated",
   memberDeadline: "08/30/2020"
 }];
 

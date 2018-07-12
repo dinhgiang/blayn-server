@@ -59,14 +59,14 @@ const downloadCsv = async (req, res) => {
 
 const createSponsor = async (req, res) => {
   const sponsor = req.body;
-  sponsor.role = "sponsor";
-  sponsor.logo = req.file.path;
-
+  
   try {
+    if (!req.file) {
+      throw new Error("logo is required");
+    }
     if (req.sender.role !== 'root') {
       throw new Error("user isn't root");
     }
-
     if (!isEmail(sponsor.email)) {
       throw new Error("email is invalid");
     }
@@ -74,17 +74,49 @@ const createSponsor = async (req, res) => {
       throw new Error("date is invalid");
     }
 
+    sponsor.role = "sponsor";
+    sponsor.logo = req.file.path;
+
     const newSponsor = await Sponsor.createSponsor(sponsor);
     res.send(newSponsor);
   } catch (err) {
     res.status(400).send({message: err.message});
   }
-}
+};
+
+const editProfile = async (req, res) => {
+  const sponsor = req.body;
+  sponsor.userId = req.sender._id;
+
+  try {
+    if (!req.body.logo && !req.file) {
+      throw new Error("logo is required");
+    }
+    if (!req.body.logo) {
+      sponsor.logo = req.file.path;
+    }
+    if (req.sender.role !== 'sponsor') {
+      throw new Error("user isn't sponsor");
+    }
+    if (!isDateString(sponsor.dateOfEstablished)) {
+      throw new Error("date is invalid");
+    }
+    // if (!isEmail(sponsor.email)) {
+    //   throw new Error("email is invalid");
+    // }
+
+    const result = await Sponsor.editProfile(sponsor);
+    res.send(result);
+  } catch (err) {
+    res.send({message: err.message});
+  }
+};
 
 module.exports = {
   getAll,
   getEvents,
   getProfile,
   downloadCsv,
-  createSponsor
+  createSponsor,
+  editProfile
 };

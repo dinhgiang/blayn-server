@@ -110,6 +110,33 @@ SponsorSchema.statics.createSponsor = async (sponsor) => {
   return await newSponsor.save();
 };
 
+SponsorSchema.statics.editProfile = async sponsor => {
+  return Sponsor.update({
+    userId: sponsor.userId
+  }, {
+    companyName: sponsor.companyName,
+    staffName: sponsor.staffName,
+    staffRubyName: sponsor.staffRubyName,
+    companyAddress: sponsor.companyAddress,
+    companyPhone: sponsor.companyPhone,
+    department: sponsor.department,
+    logo: sponsor.logo,
+    CEOName: sponsor.CEOName,
+    dateOfEstablished: sponsor.dateOfEstablished,
+    numberOfEmployees: sponsor.numberOfEmployees,
+    industry: sponsor.industry,
+    introduction1: sponsor.introduction1,
+    introduction2: sponsor.introduction2,
+    websiteURL: sponsor.websiteURL
+  })
+  .then(result => {
+    return "update success";
+  })
+  .catch(err => {
+    return { message: err.message };
+  });
+};
+
 const Sponsor = mongoose.model('sponsors', SponsorSchema);
 
 module.exports = {

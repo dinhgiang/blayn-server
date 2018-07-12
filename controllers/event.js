@@ -22,15 +22,17 @@ const getAll = async (req, res) => {
 
 const createEvent = async (req, res) => {
   const event = req.body;
-  event.image = req.file.path;
-
+  
   if (event.schedule = 'true') {
     event.status = 'under review'
   } else {
     event.status = 'draft';
   }
-
+  
   try {
+    if (!req.file) {
+      throw new Error("image is required");
+    }
     if (req.sender.role !== 'sponsor') {
       throw new Error("user isn't sponsor");
     }
@@ -44,6 +46,7 @@ const createEvent = async (req, res) => {
       throw new Error("wrong time");
     }
     
+    event.image = req.file.path;
     event.endingTime = moment(event.startingTime, 'HH:mm:ss', false).add(MAX_EVENT_TIME, 'm').format('HH:mm:ss');
     event.sponsorId = req.sender._id;
     const newEvent = await Event.createEvent(event);
@@ -60,7 +63,7 @@ const editEvent = async (req, res) => {
   event.sponsorId = sponsor._id;
 
   try {
-    if (!req.file) {
+    if (!req.file && !req.body.image) {
       throw new Error("image is required");
     }
     if (!req.body.image) {
@@ -85,15 +88,61 @@ const editEvent = async (req, res) => {
       throw new Error("wrong time");
     }
 
-    const result = await Event.editEvent(event)
+    const result = await Event.editEvent(event);
     res.send(result);
   } catch (err) {
+    
     res.status(400).send({message: err.message});
   }  
+};
+
+const approve = async (req, res) => {
+  const event = new Object();
+  event.eventId = req.body.eventId;
+
+  try {
+    if (req.sender.role !== "root") {
+      throw new Error("user isn't root");
+    }
+    if (req.body.approve) {
+      event.status = "approved";
+    } else {
+      event.status = "denied";
+    }
+
+    const result = await Event.approve(event);
+    
+    if (!result.n) {
+      throw new Error("can not find this event");
+    };
+    res.send(result);
+  } catch (error) {
+    res.status(400).send({message: error.message});
+  }
+};
+
+const removeEvent = async (req, res) => {
+  try {
+    if (req.sender.role !== "root") {
+      throw new Error("user isn't root")
+    }
+
+    const result = await Event.removeEvent(req.body.eventId);
+
+    if (result.n == 0) {
+      throw new Error("can not find this event");  
+    }
+
+    res.send("delete success");
+  } catch (error) {
+    res.status(400).send({message: error.message});
+  }
 };
 
 module.exports = {
   getAll,
   createEvent,
-  editEvent
+  editEvent,
+  approve,
+  removeEvent
 };

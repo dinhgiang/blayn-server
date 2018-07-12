@@ -56,11 +56,14 @@ const downloadCsv = async (req, res) => {
 
 const signup = async (req, res) => {
   const student = req.body;
-  student.avatar = req.files.avatar[0].path;
-  student.studentCard = req.files.studentCard[0].path;
-  student.role = "student";
-  
+
   try {
+    if (!req.files.avatar) {
+      throw new Error("avatar is required");
+    }
+    if (!req.files.studentCard) {
+      throw new Error("studentCard is required");
+    }
     if (!student.password) {
       throw new Error("password is required");
     }
@@ -70,6 +73,10 @@ const signup = async (req, res) => {
     if (!isEmail(student.email)) {
       throw new Error("email is invalid");
     }
+
+    student.avatar = req.files.avatar[0].path;
+    student.studentCard = req.files.studentCard[0].path;
+    student.role = "student";
     
     const newStudent = await Student.createNew(student);
     res.status(200).send(newStudent);
@@ -94,15 +101,20 @@ const applyEvent = async (req, res) => {
 const editProfile =  async (req, res) => {
   const student = req.body;
   student.userId = req.sender._id;
-
-  if (!req.body.avatar) {
-    student.avatar = req.files.avatar[0].path;
-  }
-  if (!req.body.studentCard) {
-    student.studentCard = req.files.studentCard[0].path;
-  }
-
+  
   try {
+    if (!req.body.avatar && !req.files.avatar) {
+      throw new Error("avatar is required");
+    }
+    if (!req.body.studentCard && !req.files.studentCard) {
+      throw new Error("studentCard is required");
+    }
+    if (!req.body.avatar) {
+      student.avatar = req.files.avatar[0].path;
+    }
+    if (!req.body.studentCard) {
+      student.studentCard = req.files.studentCard[0].path;
+    }
     if (req.sender.role !== 'student') {
       throw new Error("user isn't student");
     }
@@ -117,6 +129,31 @@ const editProfile =  async (req, res) => {
   }
 };
 
+const approve = async (req, res) => {
+  const student = new Object();
+  student.studentId = req.body.studentId;
+
+  try {
+    if (req.sender.role !== "root") {
+      throw new Error("user isn't root");
+    }
+    if (req.body.approve) {
+      student.status = "member";
+    } else {
+      student.status = "deactivated";
+    }
+    
+    const result = await Student.approve(student);
+
+    if (result.n == 0) {
+      throw new Error("can not find this student");
+    };
+    res.send("update success");
+  } catch (error) {
+    res.status(400).send({message: error.message});
+  }
+};
+
 module.exports = {
   getAll,
   getProfile,
@@ -124,5 +161,6 @@ module.exports = {
   downloadCsv,
   signup,
   applyEvent,
-  editProfile
+  editProfile,
+  approve
 };

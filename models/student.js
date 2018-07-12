@@ -123,6 +123,14 @@ StudentSchema.statics.editProfile = async student => {
   });
 };
 
+StudentSchema.statics.approve = async student => {
+  return await Student.update({
+    _id: student.studentId
+  }, {
+    status: student.status
+  })
+};
+
 const Student = mongoose.model('students', StudentSchema);
 
 module.exports = {

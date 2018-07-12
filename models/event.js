@@ -121,6 +121,18 @@ EventSchema.statics.editEvent = async (event) => {
   .then(result => { return "update success"; });
 };
 
+EventSchema.statics.approve = async event => {
+  return await Event.update({
+    _id: event.eventId
+  }, {
+    status: event.status
+  });
+};
+
+EventSchema.statics.removeEvent = async eventId => {
+  return await Event.deleteOne({_id: eventId});
+};
+
 const Event = mongoose.model('events', EventSchema);
 
 module.exports = {
