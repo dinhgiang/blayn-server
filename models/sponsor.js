@@ -81,13 +81,16 @@ const SponsorSchema = mongoose.Schema({
   }
 });
 
+SponsorSchema.statics.getByUserId = (userId) => {
+  return Sponsor.findOne({userId: userId});
+}
+
 SponsorSchema.statics.getAll = () => {
   return Sponsor.find().select('-__v');
 };
 
 SponsorSchema.statics.getEvents = async (userId) => {
   const sponsor = await Sponsor.findOne({userId: userId});
-
   const events = await Event.find({sponsorId: sponsor._id}).select('-__v');
   return events;
 };
@@ -104,7 +107,28 @@ SponsorSchema.statics.createSponsor = async (sponsor) => {
   const newSponsor = new Sponsor(sponsor);
   newSponsor.userId = user._id;
   return await newSponsor.save();
-}
+};
+
+SponsorSchema.statics.editProfile = sponsor => {
+  return Sponsor.update({
+    userId: sponsor.userId
+  }, {
+    companyName: sponsor.companyName,
+    staffName: sponsor.staffName,
+    staffRubyName: sponsor.staffRubyName,
+    companyAddress: sponsor.companyAddress,
+    companyPhone: sponsor.companyPhone,
+    department: sponsor.department,
+    logo: sponsor.logo,
+    CEOName: sponsor.CEOName,
+    dateOfEstablished: sponsor.dateOfEstablished,
+    numberOfEmployees: sponsor.numberOfEmployees,
+    industry: sponsor.industry,
+    introduction1: sponsor.introduction1,
+    introduction2: sponsor.introduction2,
+    websiteURL: sponsor.websiteURL
+  });
+};
 
 const Sponsor = mongoose.model('sponsors', SponsorSchema);
 

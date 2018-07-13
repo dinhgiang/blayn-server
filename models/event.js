@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const { Sponsor } = require('./sponsor.js');
+
 const EventSchema = mongoose.Schema({
   title: {
     type: String,
@@ -71,10 +73,69 @@ EventSchema.statics.getAllForSponsor = () => {
   return Event.find({status: 'approved'}).select('title date startingTime');
 };
 
-EventSchema.statics.createEvent = async (event) => {
+EventSchema.statics.createEvent = (event) => {
   const newEvent = new Event(event);
-  return await newEvent.save();
-}
+  return newEvent.save();
+};
+
+EventSchema.statics.addFollowingStudent = (studentId, eventId) => {
+  return Event.update({
+    _id: eventId,
+    'followingStudents.studentId' : {
+      $ne: studentId
+    } 
+  }, {
+    $push: {
+      followingStudents: {
+        studentId: studentId
+      }
+    }
+  });
+};
+
+EventSchema.statics.removeFollowingStudent = (studentId, eventId) => {
+  return Event.update({
+    _id: eventId
+  }, {
+    $pull: {
+      followingStudents: {
+        studentId: studentId
+      }
+    }
+  });
+};
+
+EventSchema.statics.editEvent = (event) => {
+  return Event.update({
+    sponsorId: event.sponsorId,
+    _id: event._id
+  }, {
+    title: event.title,
+    date: event.date,
+    startingTime: event.startingTime,
+    description: event.description,
+    image: event.image,
+    status: event.status
+  });
+};
+
+EventSchema.statics.approve = event => {
+  return Event.update({
+    _id: event.eventId,
+    status: "under review"
+  }, {
+    status: event.status
+  });
+};
+
+EventSchema.statics.removeEventForRoot = eventId => {
+  return Event.deleteOne({_id: eventId});
+};
+
+EventSchema.statics.removeEventForSponsor = async (eventId, userId) => {
+  const sponsor = await Sponsor.findOne({userId: userId});
+  return await Event.deleteOne({_id: eventId, sponsorId: sponsor._id});
+};
 
 const Event = mongoose.model('events', EventSchema);
 

@@ -22,5 +22,16 @@ router.get('/students/download', authenticate, student.downloadCsv);
 router.post('/user/login', user.login);
 router.post('/student/signup', storage.uploadStudentProfile, student.signup);
 router.post('/event/create', authenticate, storage.uploadEventImage, event.createEvent);
-router.post('/sponsor/create', authenticate, storage.uploadSponsorProfile, sponsor.createSponsor)
+router.post('/sponsor/create', authenticate, storage.uploadSponsorProfile, sponsor.createSponsor);
+router.post('/student/reset-password', student.resetPassword);
+
+router.put('/student/apply', authenticate, student.applyEvent);
+router.put('/student/profile', authenticate, storage.uploadStudentProfile, student.editProfile);
+router.put('/event/detail', authenticate, storage.uploadEventImage, event.editEvent);
+router.put('/sponsor/profile', authenticate, storage.uploadSponsorProfile, sponsor.editProfile);
+router.put('/event/approve', authenticate, event.approve);
+router.put('/student/approve', authenticate, student.approve);
+
+router.delete('/event', authenticate, event.removeEvent);
+
 module.exports = router;

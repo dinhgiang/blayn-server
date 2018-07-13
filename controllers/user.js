@@ -7,7 +7,7 @@ const login = async (req, res) => {
   const { id, password } = req.body;
   try {
     const user = await User.getUser(id);
-
+    
     if (user == null) {
       throw new Error('Invalid username');
     } 

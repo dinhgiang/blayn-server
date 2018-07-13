@@ -6,11 +6,11 @@ const isEmail = email => {
 };
 
 const isDateString = date => {
-  return moment(date, 'MM/DD/YYYY', false).isValid();
+  return moment(date, 'MM/DD/YYYY', true).isValid();
 };
 
 const isTimeString = time => {
-  return moment(time, 'HH:mm:ss', false).isValid();
+  return moment(time, 'HH:mm:ss', true).isValid();
 };
 
 const isTimeBeforeNow = time => {

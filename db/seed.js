@@ -42,7 +42,7 @@ const sponsor = [{
   companyPhone: "01234567",
   department: "E3",
   position: "leader",
-  logo: 'public/images/sponsors/Framgia.jpg',
+  logo: 'public/images/sponsors/Framgia.png',
   CEOName: "hihi",
   dateOfEstablished: "01/01/2010",
   numberOfEmployees: 1000,
@@ -113,21 +113,21 @@ const student = [{
   studentCard: "none",
   studentNumber: "16020928",
   barcode: "12341235",
-  status: "under review",
+  status: "deactivated",
   memberDeadline: "08/30/2020"
 }];
 
 const event = [{
   _id: new ObjectID(),
-  title: "Free coffee",
+  title: "Beer fest",
   date: "09/09/2018",
   startingTime: "14:00:00",
   endingTime: "17:00:00",
   joinedStudents: 30,
   description: "",
-  image: "asdfasdf",
+  image: "public/images/events/image-1531127624180.png",
   sponsorId: sponsor[0]._id,
-  status: "under review",
+  status: "approved",
   unavailableSeats: 20,
   followingStudents: [{
     studentId: student[0]._id,
@@ -138,52 +138,59 @@ const event = [{
   }]
 }, {
   _id: new ObjectID(),
-  title: "Free cafe",
+  title: "Good morning English cafe",
+  date: "09/09/2018",
+  startingTime: "14:00:00",
+  endingTime: "17:00:00",
+  joinedStudents: 30,
+  description: "",
+  image: "public/images/events/image-1531127624181.png",
+  sponsorId: sponsor[0]._id,
+  status: "under review",
+  unavailableSeats: 20,
+  followingStudents: []
+}, {
+  _id: new ObjectID(),
+  title: "Get out and play... everyday!",
   date: "06/06/2018",
   startingTime: "14:00:00",
   endingTime: "17:00:00",
   joinedStudents: 50,
   description: "asfd",
-  image: "asdfasdf",
+  image: "public/images/events/image-1531127624182.png",
   sponsorId: sponsor[0]._id,
   status: "draft",
   unavailableSeats: 10,
-  followingStudents: [{
-    studentId: student[1]._id,
-    visitedTime: new Date("2018-07-20T10:30:00")
-  }]
+  followingStudents: []
 }, {
   _id: new ObjectID(),
-  title: "Free cafe",
+  title: "Color splatter",
   date: "06/06/2018",
   startingTime: "14:00:00",
   endingTime: "17:00:00",
   joinedStudents: 50,
   description: "asfd",
-  image: "asdfasdf",
+  image: "public/images/events/image-1531127624183.png",
   sponsorId: sponsor[0]._id,
   status: "approved",
   unavailableSeats: 10,
   followingStudents: [{
-    studentId: student[1]._id,
+    studentId: student[2]._id,
     visitedTime: new Date("2018-07-20T10:30:00")
   }]
 }, {
   _id: new ObjectID(),
-  title: "Free cafe",
-  date: "06/06/2018",
-  startingTime: "14:00:00",
-  endingTime: "17:00:00",
+  title: "MOVE",
+  date: "08/23/2018",
+  startingTime: "19:00:00",
+  endingTime: "20:00:00",
   joinedStudents: 50,
   description: "asfd",
-  image: "asdfasdf",
+  image: "public/images/events/image-1531127624184.png",
   sponsorId: sponsor[0]._id,
   status: "denied",
   unavailableSeats: 10,
-  followingStudents: [{
-    studentId: student[1]._id,
-    visitedTime: new Date("2018-07-20T10:30:00")
-  }]
+  followingStudents: []
 }];
 
 Event.remove({}).then(() => {
