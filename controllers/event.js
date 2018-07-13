@@ -89,16 +89,19 @@ const editEvent = async (req, res) => {
     }
 
     const result = await Event.editEvent(event);
-    res.send(result);
+    if (!result.nModified) {
+      throw new Error("can not update this event")
+    }
+    res.send({message: "updated"});
   } catch (err) {
-    
     res.status(400).send({message: err.message});
   }  
 };
 
 const approve = async (req, res) => {
-  const event = new Object();
-  event.eventId = req.body.eventId;
+  const event = {
+    eventId: req.body.eventId
+  };
 
   try {
     if (req.sender.role !== "root") {
@@ -112,10 +115,15 @@ const approve = async (req, res) => {
 
     const result = await Event.approve(event);
     
-    if (!result.n) {
-      throw new Error("can not find this event");
+    if (!result.nModified) {
+      if (req.body.approve) {
+        throw new Error("can't approve this event");
+      } else {
+        throw new Error("can't deny this event");
+      }
     };
-    res.send(result);
+
+    res.send({message: event.status});
   } catch (error) {
     res.status(400).send({message: error.message});
   }
@@ -123,17 +131,25 @@ const approve = async (req, res) => {
 
 const removeEvent = async (req, res) => {
   try {
-    if (req.sender.role !== "root") {
-      throw new Error("user isn't root")
+    if (req.sender.role !== "root" && req.sender.role !== "sponsor") {
+      throw new Error("you can not delete event");
     }
 
-    const result = await Event.removeEvent(req.body.eventId);
-
-    if (result.n == 0) {
-      throw new Error("can not find this event");  
+    let result;
+    
+    if (req.sender.role === "root") {
+      result = await Event.removeEventForRoot(req.body.eventId);
     }
 
-    res.send("delete success");
+    if (req.sender.role === "sponsor") {
+      result = await Event.removeEventForSponsor(req.body.eventId, req.sender._id);
+    }
+
+    if (!result.n) {
+      throw new Error("can not delete this event");  
+    }
+
+    res.send({message: "delete success"});
   } catch (error) {
     res.status(400).send({message: error.message});
   }

@@ -91,7 +91,6 @@ SponsorSchema.statics.getAll = () => {
 
 SponsorSchema.statics.getEvents = async (userId) => {
   const sponsor = await Sponsor.findOne({userId: userId});
-
   const events = await Event.find({sponsorId: sponsor._id}).select('-__v');
   return events;
 };
@@ -110,7 +109,7 @@ SponsorSchema.statics.createSponsor = async (sponsor) => {
   return await newSponsor.save();
 };
 
-SponsorSchema.statics.editProfile = async sponsor => {
+SponsorSchema.statics.editProfile = sponsor => {
   return Sponsor.update({
     userId: sponsor.userId
   }, {
@@ -128,12 +127,6 @@ SponsorSchema.statics.editProfile = async sponsor => {
     introduction1: sponsor.introduction1,
     introduction2: sponsor.introduction2,
     websiteURL: sponsor.websiteURL
-  })
-  .then(result => {
-    return "update success";
-  })
-  .catch(err => {
-    return { message: err.message };
   });
 };
 

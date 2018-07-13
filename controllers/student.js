@@ -1,6 +1,7 @@
 const fs = require('fs');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const path = require('path');
+const nodemailer = require('nodemailer');
 
 const { Student } = require('../models/student.js');
 const { Event } = require('../models/event.js');
@@ -88,13 +89,23 @@ const signup = async (req, res) => {
 const applyEvent = async (req, res) => {
   const studentId = req.sender._id;
   const eventId = req.body.eventId;
-
+  try {
   if (req.body.apply) {
     const result = await Event.addFollowingStudent(studentId, eventId);
-    res.send(result);
+      // check if mongoose can not modify document
+      if (!result.nModified) {
+        throw new Error("can not follow this event");
+      }
+      res.send({message: "followed"});
   } else {
     const result = await Event.removeFollowingStudent(studentId, eventId);
-    res.send(result);
+      if (!result.nModified) {
+        throw new Error("can not unfollow this event");
+  }
+      res.send({message: "unfollowed"});
+    }
+  } catch (error) {
+    res.status(400).send({message: error.message});
   }
 };
 
@@ -123,9 +134,13 @@ const editProfile =  async (req, res) => {
     }
 
     const result = await Student.editProfile(student);
-    res.send(result);
+    
+    if (!result.nModified) {
+      throw new Error("can not update this student");
+    }
+    res.send({message: "updated"});
   } catch (err) {
-    res.send({message: err.message});
+    res.status(400).send({message: err.message});
   }
 };
 
@@ -145,13 +160,51 @@ const approve = async (req, res) => {
     
     const result = await Student.approve(student);
 
-    if (result.n == 0) {
-      throw new Error("can not find this student");
-    };
-    res.send("update success");
+    if (!result.nModified) {
+      if (req.body.approve) {
+        throw new Error("can't approve this event");
+      } else {
+        throw new Error("can't deactive this event");
+      }
+    }
+
+    if (req.body.approve) {
+      res.send({message: "approved"});
+    } else {
+      res.send({message: "deactivated"})
+    }
   } catch (error) {
     res.status(400).send({message: error.message});
   }
+};
+
+const resetPassword = (req, res) => {
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: 'dinhvangiang1198.7@gmail.com',
+      pass: 'dinhvangiang1198@7'
+    }
+  });
+
+  const mail = fs.readFileSync('./utilities/reset-password.html', 'utf8');
+  
+  const mailOptions = {
+    from: 'dinhvangiang1198.7@gmail.com',
+    to: req.body.email,
+    subject: 'Reset password',
+    html: mail
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(info);
+  }
+  });
+
+  res.send("send email");
 };
 
 module.exports = {
@@ -162,5 +215,6 @@ module.exports = {
   signup,
   applyEvent,
   editProfile,
-  approve
+  approve,
+  resetPassword
 };

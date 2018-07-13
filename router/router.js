@@ -23,6 +23,7 @@ router.post('/user/login', user.login);
 router.post('/student/signup', storage.uploadStudentProfile, student.signup);
 router.post('/event/create', authenticate, storage.uploadEventImage, event.createEvent);
 router.post('/sponsor/create', authenticate, storage.uploadSponsorProfile, sponsor.createSponsor);
+router.post('/student/reset-password', student.resetPassword);
 
 router.put('/student/apply', authenticate, student.applyEvent);
 router.put('/student/profile', authenticate, storage.uploadStudentProfile, student.editProfile);

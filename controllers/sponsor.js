@@ -101,12 +101,12 @@ const editProfile = async (req, res) => {
     if (!isDateString(sponsor.dateOfEstablished)) {
       throw new Error("date is invalid");
     }
-    // if (!isEmail(sponsor.email)) {
-    //   throw new Error("email is invalid");
-    // }
 
     const result = await Sponsor.editProfile(sponsor);
-    res.send(result);
+    if (!result.nModified) {
+      throw new Error("can not update this event");
+    }
+    res.send({message: "updated"});
   } catch (err) {
     res.send({message: err.message});
   }

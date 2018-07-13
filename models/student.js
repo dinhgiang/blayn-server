@@ -108,24 +108,21 @@ StudentSchema.statics.createNew = async (student) => {
   return await newStudent.save();
 };
 
-StudentSchema.statics.editProfile = async student => {
-  return await Student.update({userId: student.userId}, {
+StudentSchema.statics.editProfile = student => {
+  return Student.update({userId: student.userId}, {
     avatar: student.avatar,
     studentNumber: student.studentNumber,
     dateOfBirth: student.dateOfBirth,
     phone: student.phone,
     department: student.department,
     studentCard: student.studentCard
-  })
-  .then(result => {return "update success";})
-  .catch(err => {
-    return {message: err.message};
   });
 };
 
-StudentSchema.statics.approve = async student => {
-  return await Student.update({
-    _id: student.studentId
+StudentSchema.statics.approve = student => {
+  return Student.update({
+    _id: student.studentId,
+    status: "under review"
   }, {
     status: student.status
   })

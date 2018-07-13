@@ -19,7 +19,7 @@ const UserSchema = mongoose.Schema({
 });
 
 UserSchema.statics.getUser = (id) => {
-  return User.findOne({email: id});
+   return User.findOne({email: id});
 };
 
 UserSchema.pre('save', function(next) {
