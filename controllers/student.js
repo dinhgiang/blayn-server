@@ -2,9 +2,12 @@ const fs = require('fs');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const path = require('path');
 const nodemailer = require('nodemailer');
+const hbs = require('nodemailer-express-handlebars');
+const jwt = require('jsonwebtoken');
 
 const { Student } = require('../models/student.js');
 const { Event } = require('../models/event.js');
+const { User } = require('../models/user.js');
 const { isEmail, isDateString } = require('../utilities/validate.js');
 
 const getAll = async (req, res) => {
@@ -78,6 +81,7 @@ const signup = async (req, res) => {
     student.avatar = req.files.avatar[0].path;
     student.studentCard = req.files.studentCard[0].path;
     student.role = "student";
+    student.barcode = Math.random().toString().substring(2,10);
     
     const newStudent = await Student.createNew(student);
     res.status(200).send(newStudent);
@@ -178,33 +182,58 @@ const approve = async (req, res) => {
   }
 };
 
-const resetPassword = (req, res) => {
+const resetPassword = async (req, res) => {
+  const user = await User.getUser(req.body.email);
+  if (!user) {
+    return res.status(400).send('can not find this user');
+  };
+
+  const student = await Student.getProfile(user._id);
+  if (!student) {
+    return res.status(400).send('can not find this student');
+  };
+
+  const token = jwt.sign({
+    _id: user._id,
+    role: user.role
+  }, process.env.JWT_SECRET, {
+    expiresIn: process.env.RESET_PASSWORD_EXPIRES_IN
+  })
+
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-      user: 'dinhvangiang1198.7@gmail.com',
-      pass: 'dinhvangiang1198@7'
+      user: process.env.MAILER_EMAIL,
+      pass: process.env.MAILER_PASSWORD
     }
   });
 
-  const mail = fs.readFileSync('./utilities/reset-password.html', 'utf8');
+  const handlebarsOptions = {
+    viewEngine: 'handlebars',
+    viewPath: path.resolve('./utilities'),
+    extName: '.html'
+  };
+
+  transporter.use('compile', hbs(handlebarsOptions));
   
   const mailOptions = {
-    from: 'dinhvangiang1198.7@gmail.com',
+    from: process.env.MAILER_EMAIL,
     to: req.body.email,
     subject: 'Reset password',
-    html: mail
+    template: 'reset-password',
+    context: {
+      url: 'blayncafe://reset-password/token=' + token,
+      name: student.givenName
+    }
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.log(error);
+      res.status(202).send(error);
     } else {
-      console.log(info);
-  }
+      res.send({message: "sent email"})
+    }
   });
-
-  res.send("send email");
 };
 
 module.exports = {
