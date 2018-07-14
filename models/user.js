@@ -19,7 +19,7 @@ const UserSchema = mongoose.Schema({
 });
 
 UserSchema.statics.getUser = (id) => {
-   return User.findOne({email: id});
+   return User.findOne({email: id}).select('-__v');
 };
 
 UserSchema.pre('save', function(next) {
@@ -36,6 +36,16 @@ UserSchema.pre('save', function(next) {
     next();
   }
 });
+
+UserSchema.statics.changePassword = async user => {
+  const currentUser = await User.findById(user._id);
+  console.log(user);
+  
+  console.log(currentUser);
+  
+  currentUser.password = user.password;
+  return currentUser.save();
+};
 
 const User = mongoose.model('users', UserSchema);
 
