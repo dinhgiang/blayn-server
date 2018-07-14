@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const { Student } = require('../models/student.js');
 const { Event } = require('../models/event.js');
 const { User } = require('../models/user.js');
-const { isEmail, isDateString } = require('../utilities/validate.js');
+const { isEmail, isDateString, isPassword } = require('../utilities/validate.js');
 
 const getAll = async (req, res) => {
   const students = await Student.getAll();
@@ -71,7 +71,7 @@ const signup = async (req, res) => {
     if (!student.password) {
       throw new Error("password is required");
     }
-    if (student.password.length < 8) {
+    if (!isPassword(student.password)) {
       throw new Error("password is too short");
     } 
     if (!isEmail(student.email)) {

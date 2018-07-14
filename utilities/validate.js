@@ -5,6 +5,10 @@ const isEmail = email => {
   return emailRegex.test(email);
 };
 
+const isPassword = password => {
+  return password.length >= 8;
+}
+
 const isDateString = date => {
   return moment(date, 'MM/DD/YYYY', true).isValid();
 };
@@ -19,6 +23,7 @@ const isTimeBeforeNow = time => {
 
 module.exports = {
   isEmail,
+  isPassword,
   isDateString,
   isTimeString,
   isTimeBeforeNow

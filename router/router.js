@@ -31,6 +31,7 @@ router.put('/event/detail', authenticate, storage.uploadEventImage, event.editEv
 router.put('/sponsor/profile', authenticate, storage.uploadSponsorProfile, sponsor.editProfile);
 router.put('/event/approve', authenticate, event.approve);
 router.put('/student/approve', authenticate, student.approve);
+router.put('/student/reset-password', authenticate, user.changeStudentPassword);
 
 router.delete('/event', authenticate, event.removeEvent);
 

@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { User } = require('../models/user.js');
+const { isPassword } = require('../utilities/validate.js');
 
 const login = async (req, res) => {
   const { id, password } = req.body;
@@ -36,6 +37,32 @@ const login = async (req, res) => {
   };
 };
 
+const changeStudentPassword = async (req, res) => {
+  const user = {
+    _id: req.sender._id,
+    role: req.sender.role,
+    password: req.body.newPassword
+  }
+
+  try {
+    if (user.role !== "student") {
+      throw new Error("user isn't student");
+    }
+    if (!isPassword(user.password)) {
+      throw new Error("password is invalid");
+    }
+
+    console.log(user);
+    
+
+    const result = await User.changePassword(user);
+    res.send(result);
+  } catch (error) {
+    res.status(400).send({message: error.message});
+  }
+}
+
 module.exports = {
-  login
+  login,
+  changeStudentPassword
 }
