@@ -52,9 +52,6 @@ const changeStudentPassword = async (req, res) => {
       throw new Error("password is invalid");
     }
 
-    console.log(user);
-    
-
     const result = await User.changePassword(user);
     res.send(result);
   } catch (error) {

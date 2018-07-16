@@ -30,6 +30,11 @@ const user = [{
   email: "sponsor@gmail.com",
   password: "12345678",
   role: "sponsor"
+}, {
+  _id : new ObjectID(),
+  email: "thaihuynhatquang@gmail.com",
+  password: "12345678",
+  role: "student"
 }];
 
 const sponsor = [{
@@ -102,7 +107,7 @@ const student = [{
   memberDeadline: "08/20/2020"
 }, {
   _id: new ObjectID(),
-  userId: user[1]._id,
+  userId: user[5]._id,
   familyName: "Thai",
   givenName: "Huy Nhat Quang",
   gender: "female",

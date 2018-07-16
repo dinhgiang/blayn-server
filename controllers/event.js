@@ -2,6 +2,7 @@ const moment = require('moment');
 
 const { Event } = require('../models/event.js');
 const { Sponsor } = require('../models/sponsor.js');
+const { Student } = require('../models/student.js');
 const { isDateString, isTimeString, isTimeBeforeNow } = require('../utilities/validate.js') 
 
 const MAX_EVENT_TIME = 120; //minutes
@@ -9,7 +10,18 @@ const MAX_EVENT_TIME = 120; //minutes
 const getAll = async (req, res) => {
   let events;
   if (req.sender.role === 'student') {
+    const student = await Student.getProfile(req.sender._id);
     events = await Event.getAllForStudent();
+    
+    // check student apply event
+    events.forEach(event => {
+      event._doc.apply = false;
+      event.followingStudents.forEach(element => {
+        if (element.studentId.toString() === student._id.toString()) {
+          event._doc.apply = true;
+        }
+      });
+    });
   }
   if (req.sender.role === 'root') {
     events = await Event.getAllForRoot();

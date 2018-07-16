@@ -83,7 +83,7 @@ EventSchema.statics.addFollowingStudent = (studentId, eventId) => {
     _id: eventId,
     'followingStudents.studentId' : {
       $ne: studentId
-    } 
+    }
   }, {
     $push: {
       followingStudents: {
