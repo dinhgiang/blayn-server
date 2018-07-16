@@ -5,10 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "export NODE_ENV=development || set NODE_ENV=development&& nodemon app.js",
-    "test": "export NODE_ENV=test || set NODE_ENV=test&& nodemon app.js"
+    "test": "export NODE_ENV=test || set NODE_ENV=test&& nodemon app.js",
+    "deploy": "export NODE_ENV=deployment || set NODE_ENV=deployment&& node app.js"
   },
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "8.11.1"
+  },
   "dependencies": {
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.3",
