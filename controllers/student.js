@@ -91,21 +91,22 @@ const signup = async (req, res) => {
 };
 
 const applyEvent = async (req, res) => {
-  const studentId = req.sender._id;
+  const student = await Student.getProfile(req.sender._id);
+  const studentId = student._id;
   const eventId = req.body.eventId;
   try {
-  if (req.body.apply) {
-    const result = await Event.addFollowingStudent(studentId, eventId);
+    if (req.body.apply) {
+      const result = await Event.addFollowingStudent(studentId, eventId);
       // check if mongoose can not modify document
       if (!result.nModified) {
         throw new Error("can not follow this event");
       }
       res.send({message: "followed"});
-  } else {
-    const result = await Event.removeFollowingStudent(studentId, eventId);
+    } else {
+      const result = await Event.removeFollowingStudent(studentId, eventId);
       if (!result.nModified) {
         throw new Error("can not unfollow this event");
-  }
+      }
       res.send({message: "unfollowed"});
     }
   } catch (error) {

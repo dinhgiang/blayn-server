@@ -13,12 +13,12 @@ const getAll = async (req, res) => {
     const student = await Student.getProfile(req.sender._id);
     events = await Event.getAllForStudent();
     
-    // check student apply event
+    // check student applied event
     events.forEach(event => {
-      event._doc.apply = false;
+      event._doc.applied = false;
       event.followingStudents.forEach(element => {
         if (element.studentId.toString() === student._id.toString()) {
-          event._doc.apply = true;
+          event._doc.applied = true;
         }
       });
     });

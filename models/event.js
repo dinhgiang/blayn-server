@@ -58,7 +58,11 @@ const EventSchema = mongoose.Schema({
       type: Date,
       default: null
     }
-  }]
+  }],
+  maxStudents: {
+    type: Number,
+    required: true
+  }
 });
 
 EventSchema.statics.getAllForRoot = () => {
@@ -115,7 +119,8 @@ EventSchema.statics.editEvent = (event) => {
     startingTime: event.startingTime,
     description: event.description,
     image: event.image,
-    status: event.status
+    status: event.status,
+    maxStudents: event.maxStudents
   });
 };
 

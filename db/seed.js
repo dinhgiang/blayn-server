@@ -128,7 +128,7 @@ const event = [{
   date: "09/09/2018",
   startingTime: "14:00:00",
   endingTime: "17:00:00",
-  joinedStudents: 30,
+  joinedStudents: "",
   description: "",
   image: "public/images/events/image-1531127624180.png",
   sponsorId: sponsor[0]._id,
@@ -140,40 +140,43 @@ const event = [{
   }, {
     studentId: student[1]._id,
     visitedTime: new Date("2017-07-20T10:30:00")
-  }]
+  }],
+  maxStudents: 12
 }, {
   _id: new ObjectID(),
   title: "Good morning English cafe",
   date: "09/09/2018",
   startingTime: "14:00:00",
   endingTime: "17:00:00",
-  joinedStudents: 30,
+  joinedStudents: "",
   description: "",
   image: "public/images/events/image-1531127624181.png",
   sponsorId: sponsor[0]._id,
   status: "under review",
   unavailableSeats: 20,
-  followingStudents: []
+  followingStudents: [],
+  maxStudents: 10
 }, {
   _id: new ObjectID(),
   title: "Get out and play... everyday!",
   date: "06/06/2018",
   startingTime: "14:00:00",
   endingTime: "17:00:00",
-  joinedStudents: 50,
+  joinedStudents: "",
   description: "asfd",
   image: "public/images/events/image-1531127624182.png",
   sponsorId: sponsor[0]._id,
   status: "draft",
   unavailableSeats: 10,
-  followingStudents: []
+  followingStudents: [],
+  maxStudents: 8
 }, {
   _id: new ObjectID(),
   title: "Color splatter",
   date: "06/06/2018",
   startingTime: "14:00:00",
   endingTime: "17:00:00",
-  joinedStudents: 50,
+  joinedStudents: 0,
   description: "asfd",
   image: "public/images/events/image-1531127624183.png",
   sponsorId: sponsor[0]._id,
@@ -182,7 +185,8 @@ const event = [{
   followingStudents: [{
     studentId: student[2]._id,
     visitedTime: new Date("2018-07-20T10:30:00")
-  }]
+  }],
+  maxStudents: 8
 }, {
   _id: new ObjectID(),
   title: "MOVE",
@@ -195,7 +199,8 @@ const event = [{
   sponsorId: sponsor[0]._id,
   status: "denied",
   unavailableSeats: 10,
-  followingStudents: []
+  followingStudents: [],
+  maxStudents: 8
 }];
 
 Event.remove({}).then(() => {
