@@ -128,12 +128,12 @@ const event = [{
   date: "09/09/2018",
   startingTime: "14:00:00",
   endingTime: "17:00:00",
-  joinedStudents: "",
+  joinedStudents: 2,
   description: "",
   image: "public/images/events/image-1531127624180.png",
   sponsorId: sponsor[0]._id,
   status: "approved",
-  unavailableSeats: 20,
+  unavailableSeats: 0,
   followingStudents: [{
     studentId: student[0]._id,
     visitedTime: new Date("2018-07-20T10:30:00")
@@ -148,12 +148,12 @@ const event = [{
   date: "09/09/2018",
   startingTime: "14:00:00",
   endingTime: "17:00:00",
-  joinedStudents: "",
+  joinedStudents: 0,
   description: "",
   image: "public/images/events/image-1531127624181.png",
   sponsorId: sponsor[0]._id,
   status: "under review",
-  unavailableSeats: 20,
+  unavailableSeats: 0,
   followingStudents: [],
   maxStudents: 10
 }, {
@@ -162,12 +162,12 @@ const event = [{
   date: "06/06/2018",
   startingTime: "14:00:00",
   endingTime: "17:00:00",
-  joinedStudents: "",
+  joinedStudents: 0,
   description: "asfd",
   image: "public/images/events/image-1531127624182.png",
   sponsorId: sponsor[0]._id,
   status: "draft",
-  unavailableSeats: 10,
+  unavailableSeats: 0,
   followingStudents: [],
   maxStudents: 8
 }, {
@@ -176,29 +176,29 @@ const event = [{
   date: "06/06/2018",
   startingTime: "14:00:00",
   endingTime: "17:00:00",
-  joinedStudents: 0,
+  joinedStudents: 1,
   description: "asfd",
   image: "public/images/events/image-1531127624183.png",
   sponsorId: sponsor[0]._id,
   status: "approved",
-  unavailableSeats: 10,
+  unavailableSeats: 0,
   followingStudents: [{
     studentId: student[2]._id,
     visitedTime: new Date("2018-07-20T10:30:00")
   }],
-  maxStudents: 8
+  maxStudents: 2
 }, {
   _id: new ObjectID(),
   title: "MOVE",
   date: "08/23/2018",
   startingTime: "19:00:00",
   endingTime: "20:00:00",
-  joinedStudents: 50,
+  joinedStudents: 0,
   description: "asfd",
   image: "public/images/events/image-1531127624184.png",
   sponsorId: sponsor[0]._id,
   status: "denied",
-  unavailableSeats: 10,
+  unavailableSeats: 0,
   followingStudents: [],
   maxStudents: 8
 }];

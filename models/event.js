@@ -46,7 +46,7 @@ const EventSchema = mongoose.Schema({
   unavailableSeats: {
     type: Number,
     required: false,
-    default: null
+    default: 0
   },
   followingStudents: [{
     studentId: {
@@ -82,7 +82,12 @@ EventSchema.statics.createEvent = (event) => {
   return newEvent.save();
 };
 
-EventSchema.statics.addFollowingStudent = (studentId, eventId) => {
+EventSchema.statics.addFollowingStudent = async (studentId, eventId) => {
+  const event = await Event.findById(eventId);
+  if (event.joinedStudents >= event.maxStudents) {
+    throw new Error("event full");
+  }
+
   return Event.update({
     _id: eventId,
     'followingStudents.studentId' : {
@@ -93,6 +98,9 @@ EventSchema.statics.addFollowingStudent = (studentId, eventId) => {
       followingStudents: {
         studentId: studentId
       }
+    },
+    $set: {
+      joinedStudents: event.joinedStudents + 1
     }
   });
 };
