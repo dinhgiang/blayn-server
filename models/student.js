@@ -78,7 +78,9 @@ StudentSchema.statics.getAll = () => {
 StudentSchema.statics.getProfile = async (userId) => {
   const user = await User.findById(userId);
   const student = await Student.findOne({ userId: userId }).select('-__v');
-  
+  if (!student) {
+    throw new Error("student is not login")
+  }
   student._doc.email = user.email;
   return student;  
 };

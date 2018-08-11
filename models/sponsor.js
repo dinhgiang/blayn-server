@@ -91,6 +91,9 @@ SponsorSchema.statics.getAll = () => {
 
 SponsorSchema.statics.getEvents = async (userId) => {
   const sponsor = await Sponsor.findOne({userId: userId});
+  if (!sponsor) {
+    throw new Error("sponsor is not login");
+  }
   const events = await Event.find({sponsorId: sponsor._id}).select('-__v');
   return events;
 };
@@ -98,6 +101,9 @@ SponsorSchema.statics.getEvents = async (userId) => {
 SponsorSchema.statics.getProfile = async (userId) => {
   const user = await User.findById(userId);
   const sponsor = await Sponsor.findOne({userId : userId}).select('-__v');
+  if (!sponsor) {
+    throw new Error("sponsor is not login");
+  }
   sponsor._doc.email = user.email;
   return sponsor;
 };
