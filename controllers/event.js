@@ -171,10 +171,22 @@ const removeEvent = async (req, res) => {
   }
 };
 
+const getUnavailableSeats = async (req, res) => {
+  try {
+    const result = await Event.getAllUnavailableSeats();
+    result[0].totalSeats = process.env.TOTAL_SEATS;
+    
+    res.send(result);
+  } catch (error) {
+    res.status(400).send({message: error.message})
+  }
+}
+
 module.exports = {
   getAll,
   createEvent,
   editEvent,
   approve,
-  removeEvent
+  removeEvent,
+  getUnavailableSeats
 };

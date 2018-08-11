@@ -87,7 +87,7 @@ const student = [{
   dateOfBirth: "01/01/1998",
   studentCard: "public/images/students/studentCard-1531126928825.png",
   studentNumber: "16020926",
-  barcode: "1234",
+  barcode: "12345678",
   status: "member",
   memberDeadline: "10/09/2020"
 }, {
@@ -102,7 +102,7 @@ const student = [{
   dateOfBirth: "10/23/1998",
   studentCard: "public/images/students/studentCard-1531127148315.png",
   studentNumber: "16020928",
-  barcode: "12345",
+  barcode: "12345000",
   status: "under review",
   memberDeadline: "08/20/2020"
 }, {
@@ -125,8 +125,8 @@ const student = [{
 const event = [{
   _id: new ObjectID(),
   title: "Beer fest",
-  date: "09/09/2018",
-  startingTime: "14:00:00",
+  date: "08/11/2018",
+  startingTime: "05:00:00",
   endingTime: "17:00:00",
   joinedStudents: 2,
   description: "",
@@ -136,10 +136,11 @@ const event = [{
   unavailableSeats: 0,
   followingStudents: [{
     studentId: student[0]._id,
-    visitedTime: new Date("2018-07-20T10:30:00")
+    visitedTime: "08/01/2018 10:30:00"
   }, {
-    studentId: student[1]._id,
-    visitedTime: new Date("2017-07-20T10:30:00")
+    studentId: student[1]._id
+  }, {
+    studentId: student[2]._id
   }],
   maxStudents: 12
 }, {
@@ -173,9 +174,9 @@ const event = [{
 }, {
   _id: new ObjectID(),
   title: "Color splatter",
-  date: "06/06/2018",
-  startingTime: "14:00:00",
-  endingTime: "17:00:00",
+  date: "08/10/2018",
+  startingTime: "02:00:00",
+  endingTime: "20:00:00",
   joinedStudents: 1,
   description: "asfd",
   image: "public/images/events/image-1531127624183.png",
@@ -184,7 +185,7 @@ const event = [{
   unavailableSeats: 0,
   followingStudents: [{
     studentId: student[2]._id,
-    visitedTime: new Date("2018-07-20T10:30:00")
+    visitedTime: "07/20/2018 10:30:00"
   }],
   maxStudents: 2
 }, {

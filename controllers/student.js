@@ -11,18 +11,30 @@ const { User } = require('../models/user.js');
 const { isEmail, isDateString, isPassword } = require('../utilities/validate.js');
 
 const getAll = async (req, res) => {
-  const students = await Student.getAll();
-  res.send(students);
+  try {
+    const students = await Student.getAll();
+    res.send(students);
+  } catch (error) {
+    res.status(400).send({message: error.message})
+  }
 };
 
 const getProfile = async (req, res) => {
-  const student = await Student.getProfile(req.sender._id);
-  res.send(student);
+  try {
+    const student = await Student.getProfile(req.sender._id);
+    res.send(student);
+  } catch (error) {
+    res.status(400).send({message: error.message})
+  }
 };
 
 const getHistory = async (req, res) => {
-  const history = await Student.getHistory(req.sender._id);
-  res.send(history);
+  try {
+    const history = await Student.getHistory(req.sender._id);
+    res.send(history);
+  } catch (error) {
+    res.status(400).send({message: error.message})
+  }
 };
 
 const downloadCsv = async (req, res) => {
@@ -76,6 +88,9 @@ const signup = async (req, res) => {
     } 
     if (!isEmail(student.email)) {
       throw new Error("email is invalid");
+    }
+    if (await User.getUser(student.email)) {
+      throw new Error("email has been used");
     }
 
     student.avatar = req.files.avatar[0].path;
@@ -237,6 +252,32 @@ const resetPassword = async (req, res) => {
   });
 };
 
+const joinEvent = async (req, res) => {
+  try {
+    // find student barcode
+    const student = await Student.getByBarcode(req.body.barcode);
+    if (!student) {
+      throw new Error("can not find student");
+    }
+    
+    // check this student is following holding event
+    const event = await Event.find({"followingStudents.studentId": student._id, "status": "holding"});
+    if (!event) {
+      throw new Error("this student didn't follow hoding event");
+    }
+    
+    // unavailable seat ++, add time 
+    const result = await Event.updateEvent(student._id);
+    
+    // push notification for mobile
+    
+    // send success result
+    res.send({message: "success"});
+  } catch (error) {
+    res.status(400).send({message: error.message});
+  }
+};
+
 module.exports = {
   getAll,
   getProfile,
@@ -246,5 +287,6 @@ module.exports = {
   applyEvent,
   editProfile,
   approve,
-  resetPassword
+  resetPassword,
+  joinEvent
 };

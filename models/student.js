@@ -83,6 +83,11 @@ StudentSchema.statics.getProfile = async (userId) => {
   return student;  
 };
 
+StudentSchema.statics.getByBarcode = (barcode) => {
+  const student = Student.findOne({ barcode: barcode }).select('-__v');
+  return student;  
+};
+
 StudentSchema.statics.getHistory = async (userId) => {
   const student = await Student.findOne({userId: userId});
   
