@@ -5,18 +5,30 @@ const { isEmail, isDateString } = require('../utilities/validate.js');
 const { Sponsor } = require('../models/sponsor.js');
 
 const getAll = async (req, res) => {
-  const sponsors = await Sponsor.getAll();
-  res.send(sponsors);
+  try {
+    const sponsors = await Sponsor.getAll();
+    res.send(sponsors);
+  } catch (error) {
+    res.status(400).send({message: error.message});
+  }
 };
 
 const getEvents = async (req, res) => {
-  const events = await Sponsor.getEvents(req.sender._id);
-  res.send(events);
+  try {
+    const events = await Sponsor.getEvents(req.sender._id);
+    res.send(events);
+  } catch (error) {
+    res.status(400).send({message: error.message});
+  }
 };
 
 const getProfile = async (req, res) => {
-  const sponsor = await Sponsor.getProfile(req.sender._id);
-  res.send(sponsor);
+  try {
+    const sponsor = await Sponsor.getProfile(req.sender._id);
+    res.send(sponsor);
+  } catch (error) {
+    res.status(400).send({message: error.message});
+  }
 };
 
 const downloadCsv = async (req, res) => {

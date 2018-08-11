@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 
-const { Sponsor } = require('./sponsor.js');
-
 const EventSchema = mongoose.Schema({
   title: {
     type: String,
@@ -71,7 +69,15 @@ EventSchema.statics.getAllForRoot = () => {
 };
 
 EventSchema.statics.getAllForStudent = () => {
-  return Event.find({status: 'approved'}).select('-__v');
+  return Event.find({
+    $or: [{
+      status: 'approved'
+    }, {
+      status: 'holding'
+    }, {
+      status: 'finished'
+    }]
+  }).select('-__v');
 };
 
 EventSchema.statics.getAllForSponsor = () => {
@@ -146,9 +152,8 @@ EventSchema.statics.removeEventForRoot = eventId => {
   return Event.deleteOne({_id: eventId});
 };
 
-EventSchema.statics.removeEventForSponsor = async (eventId, userId) => {
-  const sponsor = await Sponsor.findOne({userId: userId});
-  return await Event.deleteOne({_id: eventId, sponsorId: sponsor._id});
+EventSchema.statics.removeEventForSponsor = (eventId, sponsorId) => {
+  return Event.deleteOne({_id: eventId, sponsorId: sponsorId});
 };
 
 // Update event when student scan barcode
@@ -222,8 +227,7 @@ async function updateStatus () {
   });
 };
 
-setTimeout(updateStatus, 1000);
-setInterval(updateStatus, 1000 * 60);
+setInterval(updateStatus, 1000);
 
 module.exports = {
   Event

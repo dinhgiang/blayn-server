@@ -158,7 +158,8 @@ const removeEvent = async (req, res) => {
     }
 
     if (req.sender.role === "sponsor") {
-      result = await Event.removeEventForSponsor(req.body.eventId, req.sender._id);
+      const sponsor = await Sponsor.getByUserId(req.sender._id);
+      result = await Event.removeEventForSponsor(req.body.eventId, sponsor._id);
     }
 
     if (!result.n) {
