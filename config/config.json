@@ -3,26 +3,20 @@
     "PORT": 3000,
     "MONGODB_URI": "mongodb://dinhgiang11:dinhgiang1198%40@ds219191.mlab.com:19191/blayn_cafe",
     "JWT_SECRET": "nani-dafuq",
-    "TOKEN_EXPIRES_IN": "1d",
+    "TOKEN_EXPIRES_IN": "86400s",
     "MAILER_EMAIL": "dinhvangiang1198.7@gmail.com",
     "MAILER_PASSWORD": "dinhvangiang1198@7",
-    "RESET_PASSWORD_EXPIRES_IN": "120s"
+    "RESET_PASSWORD_EXPIRES_IN": "120s",
+    "TOTAL_SEATS": "30"
   },
   "test": {
     "PORT": 3000,
     "MONGODB_URI": "mongodb://localhost:27017/blayn_cafe",
     "JWT_SECRET": "nani-dafuq",
-    "TOKEN_EXPIRES_IN": "1d",
+    "TOKEN_EXPIRES_IN": "86400s",
     "MAILER_EMAIL": "dinhvangiang1198.7@gmail.com",
     "MAILER_PASSWORD": "dinhvangiang1198@7",
-    "RESET_PASSWORD_EXPIRES_IN": "120s"
-  },
-  "deployment": {
-    "MONGODB_URI": "mongodb://dinhgiang11:dinhgiang1198%40@ds219191.mlab.com:19191/blayn_cafe",
-    "JWT_SECRET": "nani-dafuq",
-    "TOKEN_EXPIRES_IN": "1d",
-    "MAILER_EMAIL": "dinhvangiang1198.7@gmail.com",
-    "MAILER_PASSWORD": "dinhvangiang1198@7",
-    "RESET_PASSWORD_EXPIRES_IN": "120s" 
+    "RESET_PASSWORD_EXPIRES_IN": "120s",
+    "TOTAL_SEATS": "30"
   }
 }

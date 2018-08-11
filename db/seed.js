@@ -87,7 +87,7 @@ const student = [{
   dateOfBirth: "01/01/1998",
   studentCard: "public/images/students/studentCard-1531126928825.png",
   studentNumber: "16020926",
-  barcode: "1234",
+  barcode: "12345678",
   status: "member",
   memberDeadline: "10/09/2020"
 }, {
@@ -102,7 +102,7 @@ const student = [{
   dateOfBirth: "10/23/1998",
   studentCard: "public/images/students/studentCard-1531127148315.png",
   studentNumber: "16020928",
-  barcode: "12345",
+  barcode: "12345000",
   status: "under review",
   memberDeadline: "08/20/2020"
 }, {
@@ -125,77 +125,83 @@ const student = [{
 const event = [{
   _id: new ObjectID(),
   title: "Beer fest",
-  date: "09/09/2018",
-  startingTime: "14:00:00",
+  date: "08/11/2018",
+  startingTime: "05:00:00",
   endingTime: "17:00:00",
-  joinedStudents: 30,
+  joinedStudents: 2,
   description: "",
   image: "public/images/events/image-1531127624180.png",
   sponsorId: sponsor[0]._id,
   status: "approved",
-  unavailableSeats: 20,
+  unavailableSeats: 0,
   followingStudents: [{
     studentId: student[0]._id,
-    visitedTime: new Date("2018-07-20T10:30:00")
+    visitedTime: "08/01/2018 10:30:00"
   }, {
-    studentId: student[1]._id,
-    visitedTime: new Date("2017-07-20T10:30:00")
-  }]
+    studentId: student[1]._id
+  }, {
+    studentId: student[2]._id
+  }],
+  maxStudents: 12
 }, {
   _id: new ObjectID(),
   title: "Good morning English cafe",
   date: "09/09/2018",
   startingTime: "14:00:00",
   endingTime: "17:00:00",
-  joinedStudents: 30,
+  joinedStudents: 0,
   description: "",
   image: "public/images/events/image-1531127624181.png",
   sponsorId: sponsor[0]._id,
   status: "under review",
-  unavailableSeats: 20,
-  followingStudents: []
+  unavailableSeats: 0,
+  followingStudents: [],
+  maxStudents: 10
 }, {
   _id: new ObjectID(),
   title: "Get out and play... everyday!",
   date: "06/06/2018",
   startingTime: "14:00:00",
   endingTime: "17:00:00",
-  joinedStudents: 50,
+  joinedStudents: 0,
   description: "asfd",
   image: "public/images/events/image-1531127624182.png",
   sponsorId: sponsor[0]._id,
   status: "draft",
-  unavailableSeats: 10,
-  followingStudents: []
+  unavailableSeats: 0,
+  followingStudents: [],
+  maxStudents: 8
 }, {
   _id: new ObjectID(),
   title: "Color splatter",
-  date: "06/06/2018",
-  startingTime: "14:00:00",
-  endingTime: "17:00:00",
-  joinedStudents: 50,
+  date: "08/10/2018",
+  startingTime: "02:00:00",
+  endingTime: "20:00:00",
+  joinedStudents: 1,
   description: "asfd",
   image: "public/images/events/image-1531127624183.png",
   sponsorId: sponsor[0]._id,
   status: "approved",
-  unavailableSeats: 10,
+  unavailableSeats: 0,
   followingStudents: [{
     studentId: student[2]._id,
-    visitedTime: new Date("2018-07-20T10:30:00")
-  }]
+    visitedTime: "07/20/2018 10:30:00"
+  }],
+  maxStudents: 2
 }, {
   _id: new ObjectID(),
   title: "MOVE",
   date: "08/23/2018",
   startingTime: "19:00:00",
   endingTime: "20:00:00",
-  joinedStudents: 50,
+  joinedStudents: 0,
   description: "asfd",
   image: "public/images/events/image-1531127624184.png",
   sponsorId: sponsor[0]._id,
   status: "denied",
-  unavailableSeats: 10,
-  followingStudents: []
+  unavailableSeats: 0,
+  followingStudents: [],
+  maxStudents: 8
 }];
 
 Event.remove({}).then(() => {

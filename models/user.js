@@ -18,13 +18,9 @@ const UserSchema = mongoose.Schema({
   }
 });
 
-UserSchema.statics.getUser = (id) => {
-   return User.findOne({email: id}).select('-__v');
-};
-
 UserSchema.pre('save', function(next) {
   const user = this;
-
+  
   if(user.isModified('password')) {
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(user.password, salt, (err, hash) => {
@@ -36,6 +32,10 @@ UserSchema.pre('save', function(next) {
     next();
   }
 });
+
+UserSchema.statics.getUser = (email) => {
+    return User.findOne({email: email}).select('-__v');
+};
 
 UserSchema.statics.changePassword = async user => {
   const currentUser = await User.findById(user._id);

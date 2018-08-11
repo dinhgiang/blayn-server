@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const { Sponsor } = require('./sponsor.js');
 
@@ -46,7 +47,7 @@ const EventSchema = mongoose.Schema({
   unavailableSeats: {
     type: Number,
     required: false,
-    default: null
+    default: 0
   },
   followingStudents: [{
     studentId: {
@@ -55,10 +56,14 @@ const EventSchema = mongoose.Schema({
       ref: 'students'
     },
     visitedTime: {
-      type: Date,
+      type: String,
       default: null
     }
-  }]
+  }],
+  maxStudents: {
+    type: Number,
+    required: true
+  }
 });
 
 EventSchema.statics.getAllForRoot = () => {
@@ -66,7 +71,7 @@ EventSchema.statics.getAllForRoot = () => {
 };
 
 EventSchema.statics.getAllForStudent = () => {
-  return Event.find({status: 'approved'}).select('-__v -status');
+  return Event.find({status: 'approved'}).select('-__v');
 };
 
 EventSchema.statics.getAllForSponsor = () => {
@@ -78,7 +83,12 @@ EventSchema.statics.createEvent = (event) => {
   return newEvent.save();
 };
 
-EventSchema.statics.addFollowingStudent = (studentId, eventId) => {
+EventSchema.statics.addFollowingStudent = async (studentId, eventId) => {
+  const event = await Event.findById(eventId);
+  if (event.joinedStudents >= event.maxStudents) {
+    throw new Error("event full");
+  }
+
   return Event.update({
     _id: eventId,
     'followingStudents.studentId' : {
@@ -89,6 +99,9 @@ EventSchema.statics.addFollowingStudent = (studentId, eventId) => {
       followingStudents: {
         studentId: studentId
       }
+    },
+    $set: {
+      joinedStudents: event.joinedStudents + 1
     }
   });
 };
@@ -115,7 +128,8 @@ EventSchema.statics.editEvent = (event) => {
     startingTime: event.startingTime,
     description: event.description,
     image: event.image,
-    status: event.status
+    status: event.status,
+    maxStudents: event.maxStudents
   });
 };
 
@@ -137,7 +151,79 @@ EventSchema.statics.removeEventForSponsor = async (eventId, userId) => {
   return await Event.deleteOne({_id: eventId, sponsorId: sponsor._id});
 };
 
+// Update event when student scan barcode
+EventSchema.statics.updateEvent = (studentId) => {
+  return Event.update({
+    followingStudents: {
+      $elemMatch: {
+        studentId: studentId,
+        visitedTime: null
+      }
+    },
+    status: "holding"
+  }, {
+    $inc: {
+      unavailableSeats: 1
+    },
+    $set: {
+      "followingStudents.$.visitedTime": moment().format("MM/DD/YYYY HH:mm:ss")
+    }
+  })
+};
+
+EventSchema.statics.getAllUnavailableSeats = () => {
+  return Event.aggregate([{
+    $match: {
+      status: "holding"
+    }
+  }, {
+    $group: { _id: null,
+      unavailableSeats: {
+        $sum: "$unavailableSeats"
+      }
+    }
+  }])
+};
+
 const Event = mongoose.model('events', EventSchema);
+
+async function updateStatus () {
+  await Event.updateMany({
+    status: "approved",
+    date: {
+      $eq: moment().format("MM/DD/YYYY")
+    },
+    startingTime: {
+      $lte: moment().format("HH:mm:ss")
+    },
+    endingTime: {
+      $gte: moment().format("HH:mm:ss")
+    }
+  }, {
+    status: "holding"
+  });
+  
+  await Event.updateMany({
+    status: "approved",
+    $or: [{
+      date: {
+        $eq: moment().format("MM/DD/YYYY")
+      },
+      endingTime: {
+        $lt: moment().format("HH:mm:ss")
+      }
+    }, {
+      date: {
+        $lt: moment().format("MM/DD/YYYY")
+      }
+    }]
+  }, {
+    status: "finished"
+  });
+};
+
+setTimeout(updateStatus, 1000);
+setInterval(updateStatus, 1000 * 60);
 
 module.exports = {
   Event

@@ -8,28 +8,32 @@ const { isDateString, isTimeString, isTimeBeforeNow } = require('../utilities/va
 const MAX_EVENT_TIME = 120; //minutes
 
 const getAll = async (req, res) => {
-  let events;
-  if (req.sender.role === 'student') {
-    const student = await Student.getProfile(req.sender._id);
-    events = await Event.getAllForStudent();
-    
-    // check student apply event
-    events.forEach(event => {
-      event._doc.apply = false;
-      event.followingStudents.forEach(element => {
-        if (element.studentId.toString() === student._id.toString()) {
-          event._doc.apply = true;
-        }
+  try {
+    let events;
+    if (req.sender.role === 'student') {
+      const student = await Student.getProfile(req.sender._id);
+      events = await Event.getAllForStudent();
+      
+      // check student applied event
+      events.forEach(event => {
+        event._doc.applied = false;
+        event.followingStudents.forEach(element => {
+          if (element.studentId.toString() === student._id.toString()) {
+            event._doc.applied = true;
+          }
+        });
       });
-    });
+    }
+    if (req.sender.role === 'root') {
+      events = await Event.getAllForRoot();
+    }
+    if (req.sender.role === 'sponsor') {
+      events = await Event.getAllForSponsor();
+    }
+    res.send(events);
+  } catch (error) {
+    res.status(400).send({message: error.message});
   }
-  if (req.sender.role === 'root') {
-    events = await Event.getAllForRoot();
-  }
-  if (req.sender.role === 'sponsor') {
-    events = await Event.getAllForSponsor();
-  }
-  res.send(events);
 };
 
 const createEvent = async (req, res) => {
@@ -167,10 +171,22 @@ const removeEvent = async (req, res) => {
   }
 };
 
+const getUnavailableSeats = async (req, res) => {
+  try {
+    const result = await Event.getAllUnavailableSeats();
+    result[0].totalSeats = process.env.TOTAL_SEATS;
+    
+    res.send(result);
+  } catch (error) {
+    res.status(400).send({message: error.message})
+  }
+}
+
 module.exports = {
   getAll,
   createEvent,
   editEvent,
   approve,
-  removeEvent
+  removeEvent,
+  getUnavailableSeats
 };
